@@ -320,13 +320,6 @@
             [(showViewer)]="showViewer"
             [fileNodeId]="fileNodeId"
             [overlayMode]="true">
-
-            <extension-viewer [supportedExtensions]="['obj','3DS']" #extension>
-                <ng-template let-urlFileContent="urlFileContent" let-extension="extension" >
-                    <threed-viewer [urlFile]="urlFileContent" [extension]="extension" ></threed-viewer>
-                </ng-template>
-            </extension-viewer>
-
         </alfresco-viewer>
     </ng-container>
 

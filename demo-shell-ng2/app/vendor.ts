@@ -38,7 +38,6 @@ require('script-loader!dialog-polyfill/dialog-polyfill');
 import 'dialog-polyfill/dialog-polyfill.css';
 
 // Google Material Design Lite
-import 'material-design-icons/iconfont/material-icons.css';
 import 'material-design-lite/dist/material.orange-blue.min.css';
 import 'material-design-lite/material.js';
 
@@ -60,9 +59,3 @@ let pdfjsLib = require('pdfjs-dist');
 pdfjsLib.PDFJS.workerSrc = 'pdf.worker.js';
 
 require('pdfjs-dist/web/pdf_viewer.js');
-
-
-// 3D viewer
-require('three/build/three.min.js');
-import 'ng2-3d-editor';
-import 'three';

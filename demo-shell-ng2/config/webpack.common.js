@@ -88,6 +88,10 @@ module.exports = {
             helpers.root('./app'), // location of your src
             {} // a map of your routes
         ),
+        new webpack.ContextReplacementPlugin(
+            /moment[\/\\]locale$/,
+            /en-gb/
+        ),
         new HtmlWebpackPlugin({
             template: './index.html'
         }),
