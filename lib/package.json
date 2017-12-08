@@ -117,6 +117,8 @@
     "loader-utils": "1.1.0",
     "markdown-toc": "1.1.0",
     "markdownlint-cli": "^0.3.1",
+    "mdast-util-heading-range": "^2.1.0",
+    "mdast-util-toc": "^2.0.1",
     "merge-stream": "1.0.1",
     "node-sass": "4.5.3",
     "null-loader": "0.1.1",
