@@ -1,0 +1,334 @@
+# Component Docs Index
+
+Below is an index of the documentation for ADF. The [User Guide](#user-guide)
+section discusses particular techniques in depth. The other sections are references for the ADF
+libraries. Items marked with an asterisk (\*) do not currently have documentation - the link leads
+to the appropriate source file.
+
+## Contents
+
+-   [User Guide](#user-guide)
+-   [ADF Core](#adf-core)
+-   [ADF Content Services](#adf-content-services)
+-   [ADF Process Services](#adf-process-services)
+-   [ADF Insights](#adf-insights)
+
+## User guide
+
+<!-- guide start -->
+
+-   [Form Extensibility and Customisation](extensibility.md)
+-   [Angular Material Design](angular-material-design.md)
+-   [Theming](theming.md)
+-   [Typography](typography.md)
+-   [Walkthrough - adding indicators to highlight information about a node](metadata-indicators.md)
+
+<!-- guide end -->
+
+[(Back to Contents)](#contents)
+
+## ADF Core
+
+Contains a variety of components used throughout ADF.
+See the library's
+[README file](../lib/core/README.md)
+for more information about installing and using the source code.
+
+<!--core start-->
+
+## Components
+
+| Name                                                              | Description                                                                                                                                           | Source link                                                          |
+| ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| [Card view component](card-view.component.md)                     | Displays a configurable property list renderer.                                                                                                       | [Source](core/card-view/card-view.component.ts)                      |
+| [Accordion group component](accordion-group.component.md)         | Adds a collapsible panel to an [accordion menu](accordion.component.md).                                                                              | [Source](core/collapsable/accordion-group.component.ts)              |
+| [Accordion component](accordion.component.md)                     | Creates a collapsible accordion menu.                                                                                                                 | [Source](core/collapsable/accordion.component.ts)                    |
+| [Data column component](data-column.component.md)                 | Defines column properties for DataTable, Tasklist, Document List and other components.                                                                | [Source](core/data-column/data-column.component.ts)                  |
+| [Datatable component](datatable.component.md)                     | Displays data as a table with customizable columns and presentation.                                                                                  | [Source](core/datatable/components/datatable/datatable.component.ts) |
+| [Form field component](form-field.component.md)                   | A form field in an APS form.                                                                                                                          | [Source](core/form/components/form-field/form-field.component.ts)    |
+| [Form list component](form-list.component.md)                     | The component shows the activiti forms as a list.                                                                                                     | [Source](core/form/components/form-list.component.ts)                |
+| [Form component](form.component.md)                               | The component shows a Form from Activiti (see it live: [Form Quickstart](https://embed.plnkr.co/YSLXTqb3DtMhVJSqXKkE/))                               | [Source](core/form/components/form.component.ts)                     |
+| [Start form component](start-form.component.md)                   | Displays the Start Form for a process.                                                                                                                | [Source](core/form/components/start-form.component.ts)               |
+| [Text mask component](text-mask.component.md)                     | Implements text field input masks.                                                                                                                    | [Source](core/form/components/widgets/text/text-mask.component.ts)   |
+| [Info drawer layout component](info-drawer-layout.component.md)   | Displays a sidebar-style information panel.                                                                                                           | [Source](core/info-drawer/info-drawer-layout.component.ts)           |
+| [Info drawer component](info-drawer.component.md)                 | Displays a sidebar-style information panel with tabs.                                                                                                 | [Source](core/info-drawer/info-drawer.component.ts)                  |
+| [Language menu component](language-menu.component.md)             | Displays all the languages that are present in the "app.config.json" or the default one (EN).                                                         | [Source](core/language-menu/language-menu.component.ts)              |
+| [Login component](login.component.md)                             | Authenticates to Alfresco Content Services and Alfresco Process Services.                                                                             | [Source](core/login/components/login.component.ts)                   |
+| [Infinite pagination component](infinite-pagination.component.md) | Adds "infinite" pagination to the component it is used with.                                                                                          | [Source](core/pagination/infinite-pagination.component.ts)           |
+| [Pagination component](pagination.component.md)                   | Adds pagination to the component it is used with.                                                                                                     | [Source](core/pagination/pagination.component.ts)                    |
+| [Host settings component](host-settings.component.md)             | This component is a form that allows you to validate and set the url of your content service and process service saving 
+it in the user local storage | [Source](core/settings/host-settings.component.ts)                   |
+| [Toolbar divider component](toolbar-divider.component.md)         | Divides groups of elements in a Toolbar with a visual separator.                                                                                      | [Source](core/toolbar/toolbar-divider.component.ts)                  |
+| [Toolbar title component](toolbar-title.component.md)             | Supplies custom HTML to be included in a Toolbar component title.                                                                                     | [Source](core/toolbar/toolbar-title.component.ts)                    |
+| [Toolbar component](toolbar.component.md)                         | Simple container for headers, titles, actions and breadcrumbs.                                                                                        | [Source](core/toolbar/toolbar.component.ts)                          |
+| [User info component](user-info.component.md)                     | This will show a round icon with user and on click some user information.
+If user is logged in with ECM and BPM the ECM image will be shown.          | [Source](core/userinfo/components/user-info.component.ts)            |
+| [Viewer component](viewer.component.md)                           | See it live: [Viewer Quickstart](https://embed.plnkr.co/iTuG1lFIXfsP95l6bDW6/)                                                                        | [Source](core/viewer/components/viewer.component.ts)                 |
+
+## Directives
+
+| Name                                                      | Description                                                                                                                                                                                                  | Source link                                            |
+| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------ |
+| [Context menu directive](context-menu.directive.md)       | See **Demo Shell** or **DocumentList** implementation for more details and use cases.                                                                                                                        | [Source](core/context-menu/context-menu.directive.ts)  |
+| [Highlight directive](highlight.directive.md)             | Adds highlighting to selected sections of an HTML element's content.                                                                                                                                         | [Source](core/directives/highlight.directive.ts)       |
+| [Logout directive](logout.directive.md)                   | Logs the user out when the decorated element is clicked.                                                                                                                                                     | [Source](core/directives/logout.directive.ts)          |
+| [Node delete directive](node-delete.directive.md)         | Deletes multiple files and folders.                                                                                                                                                                          | [Source](core/directives/node-delete.directive.ts)     |
+| [Node favorite directive](node-favorite.directive.md)     | Selectively toggles nodes as favorite                                                                                                                                                                        | [Source](core/directives/node-favorite.directive.ts)   |
+| [Node permission directive](node-permission.directive.md) | Selectively disables an HTML element or Angular component                                                                                                                                                    | [Source](core/directives/node-permission.directive.ts) |
+| [Node restore directive](node-restore.directive.md)       | 'NodeRestoreDirective' directive takes a selection of `DeletedNodeEntry[]` and restores them in their original location.
+If the original location doesn't exist anymore, then they remain in the trash list. | [Source](core/directives/node-restore.directive.ts)    |
+| [Upload directive](upload.directive.md)                   | Allows your components or common HTML elements reacting on File drag and drop in order to upload content.                                                                                                    | [Source](core/directives/upload.directive.ts)          |
+
+## Models
+
+| Name                                              | Description                                                                      | Source link                                                     |
+| ------------------------------------------------- | -------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| [Form field model](form-field.model.md)           | Contains the value and metadata for a field of an
+[ADF Form](form.component.md). | [Source](core/form/components/widgets/core/form-field.model.ts) |
+| [Comment process model](comment-process.model.md) | Represents a comment added to a Process Services task or process instance.       | [Source](core/models/comment-process.model.ts)                  |
+| [Product version model](product-version.model.md) | Contains version and license information classes for Alfresco products.          | [Source](core/models/product-version.model.ts)                  |
+| [Site model](site.model.md)                       | Provides information about a site in a Content Services repository.              | [Source](core/models/site.model.ts)                             |
+| [User process model](user-process.model.md)       | Represents a Process Services user.                                              | [Source](core/models/user-process.model.ts)                     |
+| [Bpm user model](bpm-user.model.md)               | Contains information about a Process Services user.                              | [Source](core/userinfo/models/bpm-user.model.ts)                |
+| [Ecm user model](ecm-user.model.md)               | Contains information about a Content Services user.                              | [Source](core/userinfo/models/ecm-user.model.ts)                |
+
+## Pipes
+
+| Name                                                | Description                                                                               | Source link                                    |
+| --------------------------------------------------- | ----------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| [File size pipe](file-size.pipe.md)                 | Converts a number of bytes to the equivalent in KB, MB, etc.                              | [Source](core/pipes/file-size.pipe.ts)         |
+| [Mime type icon pipe](mime-type-icon.pipe.md)       | Retrieves an icon to represent a MIME type.                                               | [Source](core/pipes/mime-type-icon.pipe.ts)    |
+| [Node name tooltip pipe](node-name-tooltip.pipe.md) | Formats the tooltip of the underlying Node based on the following rules:                  | [Source](core/pipes/node-name-tooltip.pipe.ts) |
+| [Text highlight pipe](text-highlight.pipe.md)       | Adds highlighting to words or sections of text that match a search string.                | [Source](core/pipes/text-highlight.pipe.ts)    |
+| [Time ago pipe](time-ago.pipe.md)                   | Converts a recent past date into a number of days ago.                                    | [Source](core/pipes/time-ago.pipe.ts)          |
+| [User initial pipe](user-initial.pipe.md)           | Takes the name fields of a UserProcessModel object and extracts and formats the initials. | [Source](core/pipes/user-initial.pipe.ts)      |
+
+## Services
+
+| Name                                                          | Description                                                                                                                                                                                                                                                                                                                                                                                                                               | Source link                                               |
+| ------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| [Activiti alfresco service](activiti-alfresco.service.md)     | Get Alfresco Repository folder content based on a Repository account configured in Alfresco Process Services (APS). 
+It is possible to configure multiple Alfresco Repository accounts in APS (i.e. multiple Alfresco Servers).
+This service can also be used to link Alfresco content as related content in APS. 
+Content such as documents and other files can be attached to Process Instances 
+and Task Instances as related content. | [Source](core/form/services/activiti-alfresco.service.ts) |
+| [Form rendering service](form-rendering.service.md)           | Maps an APS form field type string onto the corresponding form widget component type.                                                                                                                                                                                                                                                                                                                                                     | [Source](core/form/services/form-rendering.service.ts)    |
+| [Form service](form.service.md)                               | Implements Process Services form methods                                                                                                                                                                                                                                                                                                                                                                                                  | [Source](core/form/services/form.service.ts)              |
+| [Node service](node.service.md)                               | Get Alfresco Repository node metadata and create nodes with metadata. 
+This service cannot be used to create nodes with content.                                                                                                                                                                                                                                                                                                          | [Source](core/form/services/node.service.ts)              |
+| [Process content service](process-content.service.md)         | Manipulate content related to a Process Instance or Task Instance in APS. Related content can be 
+uploaded to APS via for example a file upload dialog.                                                                                                                                                                                                                                                                                   | [Source](core/form/services/process-content.service.ts)   |
+| [Alfresco api service](alfresco-api.service.md)               | Provides access to initialized **AlfrescoJSApi** instance.                                                                                                                                                                                                                                                                                                                                                                                | [Source](core/services/alfresco-api.service.ts)           |
+| [Apps process service](apps-process.service.md)               | Gets details of the Process Services apps that are deployed for the user.                                                                                                                                                                                                                                                                                                                                                                 | [Source](core/services/apps-process.service.ts)           |
+| [Auth guard bpm service](auth-guard-bpm.service.md)           | Adds authentication with Process Services to a route within the app.                                                                                                                                                                                                                                                                                                                                                                      | [Source](core/services/auth-guard-bpm.service.ts)         |
+| [Auth guard ecm service](auth-guard-ecm.service.md)           | Adds authentication with Content Services to a route within the app.                                                                                                                                                                                                                                                                                                                                                                      | [Source](core/services/auth-guard-ecm.service.ts)         |
+| [Auth guard service](auth-guard.service.md)                   | Adds authentication to a route within the app.                                                                                                                                                                                                                                                                                                                                                                                            | [Source](core/services/auth-guard.service.ts)             |
+| [Authentication service](authentication.service.md)           | Provides authentication for use with the Login component.                                                                                                                                                                                                                                                                                                                                                                                 | [Source](core/services/authentication.service.ts)         |
+| [Card view update service](card-view-update.service.md)       | Reports edits and clicks within fields of a [Card View component](card-view.component.md).                                                                                                                                                                                                                                                                                                                                                | [Source](core/services/card-view-update.service.ts)       |
+| [Comment process service](comment-process.service.md)         | Adds and retrieves comments for task and process instances in Process Services.                                                                                                                                                                                                                                                                                                                                                           | [Source](core/services/comment-process.service.ts)        |
+| [Content service](content.service.md)                         | Accesses app-generated data objects via URLs and file downloads.                                                                                                                                                                                                                                                                                                                                                                          | [Source](core/services/content.service.ts)                |
+| [Cookie service](cookie.service.md)                           | Stores key-value data items as browser cookies.                                                                                                                                                                                                                                                                                                                                                                                           | [Source](core/services/cookie.service.ts)                 |
+| [Deleted nodes api service](deleted-nodes-api.service.md)     | Gets a list of Content Services nodes currently in the trash.                                                                                                                                                                                                                                                                                                                                                                             | [Source](core/services/deleted-nodes-api.service.ts)      |
+| [Discovery api service](discovery-api.service.md)             | Gets version and license information for Process Services and Content Services.                                                                                                                                                                                                                                                                                                                                                           | [Source](core/services/discovery-api.service.ts)          |
+| [Favorites api service](favorites-api.service.md)             | Gets a list of items a user has marked as their favorites.                                                                                                                                                                                                                                                                                                                                                                                | [Source](core/services/favorites-api.service.ts)          |
+| [Highlight transform service](highlight-transform.service.md) | Adds HTML to a string to highlight chosen sections.                                                                                                                                                                                                                                                                                                                                                                                       | [Source](core/services/highlight-transform.service.ts)    |
+| [Log service](log.service.md)                                 | Provide a log functionality for your ADF application.                                                                                                                                                                                                                                                                                                                                                                                     | [Source](core/services/log.service.ts)                    |
+| [Nodes api service](nodes-api.service.md)                     | Accesses and manipulates ACS document nodes using their node IDs.                                                                                                                                                                                                                                                                                                                                                                         | [Source](core/services/nodes-api.service.ts)              |
+| [Notification service](notification.service.md)               | Shows a notification message with optional feedback.                                                                                                                                                                                                                                                                                                                                                                                      | [Source](core/services/notification.service.ts)           |
+| [Page title service](page-title.service.md)                   | Sets the page title.                                                                                                                                                                                                                                                                                                                                                                                                                      | [Source](core/services/page-title.service.ts)             |
+| [People content service](people-content.service.md)           | Gets information about a Content Services user.                                                                                                                                                                                                                                                                                                                                                                                           | [Source](core/services/people-content.service.ts)         |
+| [People process service](people-process.service.md)           | Gets information about Process Services users.                                                                                                                                                                                                                                                                                                                                                                                            | [Source](core/services/people-process.service.ts)         |
+| [Shared links api service](shared-links-api.service.md)       | Finds shared links to Content Services items.                                                                                                                                                                                                                                                                                                                                                                                             | [Source](core/services/shared-links-api.service.ts)       |
+| [Storage service](storage.service.md)                         | Stores items in the form of key-value pairs.                                                                                                                                                                                                                                                                                                                                                                                              | [Source](core/services/storage.service.ts)                |
+| [Thumbnail service](thumbnail.service.md)                     | Retrieves an SVG thumbnail image to represent a document type.                                                                                                                                                                                                                                                                                                                                                                            | [Source](core/services/thumbnail.service.ts)              |
+| [Translation service](translation.service.md)                 | Supports localisation.                                                                                                                                                                                                                                                                                                                                                                                                                    | [Source](core/services/translation.service.ts)            |
+| [Upload service](upload.service.md)                           | Provides access to various APIs related to file upload features.                                                                                                                                                                                                                                                                                                                                                                          | [Source](core/services/upload.service.ts)                 |
+| [User preferences service](user-preferences.service.md)       | Stores preferences for components.                                                                                                                                                                                                                                                                                                                                                                                                        | [Source](core/services/user-preferences.service.ts)       |
+| [Bpm user service](bpm-user.service.md)                       | Gets information about the current Process Services user.                                                                                                                                                                                                                                                                                                                                                                                 | [Source](core/userinfo/services/bpm-user.service.ts)      |
+| [Ecm user service](ecm-user.service.md)                       | Gets information about a Content Services user.                                                                                                                                                                                                                                                                                                                                                                                           | [Source](core/userinfo/services/ecm-user.service.ts)      |
+
+| Name               | Source link                                   |
+| ------------------ | --------------------------------------------- |
+| Renditions service | [Source](core/services/renditions.service.ts) |
+| Sites service      | [Source](core/services/sites.service.ts)      |
+
+## Widgets
+
+| Name                                | Description                              | Source link                                                      |
+| ----------------------------------- | ---------------------------------------- | ---------------------------------------------------------------- |
+| [Content widget](content.widget.md) | The component shows the content preview. | [Source](core/form/components/widgets/content/content.widget.ts) |
+
+<!--core end-->
+
+### Other classes and interfaces
+
+-   [DataTableAdapter interface](DataTableAdapter.md)
+-   [FormFieldValidator interface](FormFieldValidator.md)
+
+[(Back to Contents)](#contents)
+
+## ADF Content Services
+
+Contains components related to Content Services.
+See the library's
+[README file](../lib/content-services/README.md)
+for more information about installing and using the source code.
+
+<!--content-services start-->
+
+## Components
+
+| Name                                                                  | Description                                                                                                                                                                                                                                                                                                                       | Source link                                                                                    |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| [Breadcrumb component](breadcrumb.component.md)                       | Indicates the current position within a navigation hierarchy.                                                                                                                                                                                                                                                                     | [Source](content-services/breadcrumb/breadcrumb.component.ts)                                  |
+| [Dropdown breadcrumb component](dropdown-breadcrumb.component.md)     | Indicates the current position within a navigation hierarchy using a dropdown menu.                                                                                                                                                                                                                                               | [Source](content-services/breadcrumb/dropdown-breadcrumb.component.ts)                         |
+| [Content node selector component](content-node-selector.component.md) | Allows a user to select items from a Content Services repository.                                                                                                                                                                                                                                                                 | [Source](content-services/content-node-selector/content-node-selector.component.ts)            |
+| [Content action component](content-action.component.md)               | Adds options to a Document List actions menu for a particular content type.                                                                                                                                                                                                                                                       | [Source](content-services/document-list/components/content-action/content-action.component.ts) |
+| [Document list component](document-list.component.md)                 | Displays the documents from a repository.                                                                                                                                                                                                                                                                                         | [Source](content-services/document-list/components/document-list.component.ts)                 |
+| [Search control component](search-control.component.md)               | Displays a input text which shows find-as-you-type suggestions.                                                                                                                                                                                                                                                                   | [Source](content-services/search/components/search-control.component.ts)                       |
+| [Search component](search.component.md)                               | You have to add a template that will be shown when the results are loaded.                                                                                                                                                                                                                                                        | [Source](content-services/search/components/search.component.ts)                               |
+| [Sites dropdown component](sites-dropdown.component.md)               | Displays a dropdown menu to show and interact with the sites of the current user.                                                                                                                                                                                                                                                 | [Source](content-services/site-dropdown/sites-dropdown.component.ts)                           |
+| [Like component](like.component.md)                                   | ![Custom columns](docassets/images/social1.png)                                                                                                                                                                                                                                                                                   | [Source](content-services/social/like.component.ts)                                            |
+| [Rating component](rating.component.md)                               | ![Rating component screenshot](docassets/images/social2.png)                                                                                                                                                                                                                                                                      | [Source](content-services/social/rating.component.ts)                                          |
+| [Tag actions component](tag-actions.component.md)                     | ![Custom columns](docassets/images/tag3.png)                                                                                                                                                                                                                                                                                      | [Source](content-services/tag/tag-actions.component.ts)                                        |
+| [Tag list component](tag-list.component.md)                           | ![Custom columns](docassets/images/tag2.png)                                                                                                                                                                                                                                                                                      | [Source](content-services/tag/tag-list.component.ts)                                           |
+| [Tag node list component](tag-node-list.component.md)                 | ![Custom columns](docassets/images/tag1.png)                                                                                                                                                                                                                                                                                      | [Source](content-services/tag/tag-node-list.component.ts)                                      |
+| [File uploading dialog component](file-uploading-dialog.component.md) | Shows a dialog listing all the files uploaded with the Upload Button or Drag Area components.                                                                                                                                                                                                                                     | [Source](content-services/upload/components/file-uploading-dialog.component.ts)                |
+| [Upload button component](upload-button.component.md)                 | You can show a notification error when the user doesn't have the right permission to perform the action.
+The UploadButtonComponent provides the event permissionEvent that is raised when the delete permission is missing
+You can subscribe to this event from your component and use the NotificationService to show a message. | [Source](content-services/upload/components/upload-button.component.ts)                        |
+| [Upload drag area component](upload-drag-area.component.md)           | Adds a drag and drop area to upload files to Alfresco.                                                                                                                                                                                                                                                                            | [Source](content-services/upload/components/upload-drag-area.component.ts)                     |
+| [Version list component](version-list.component.md)                   | Displays the version history of a node in a
+[Version Manager component](version-manager.component.md)                                                                                                                                                                                                                             | [Source](content-services/version-manager/version-list.component.ts)                           |
+| [Version manager component](version-manager.component.md)             | Displays the version history of a node with the ability to upload a new version.                                                                                                                                                                                                                                                  | [Source](content-services/version-manager/version-manager.component.ts)                        |
+| [Webscript component](webscript.component.md)                         | Another example:                                                                                                                                                                                                                                                                                                                  | [Source](content-services/webscript/webscript.component.ts)                                    |
+
+| Name                            | Source link                                                                    |
+| ------------------------------- | ------------------------------------------------------------------------------ |
+| Content metadata card component | [Source](content-services/content-metadata/content-metadata-card.component.ts) |
+| Content metadata component      | [Source](content-services/content-metadata/content-metadata.component.ts)      |
+
+## Directives
+
+| Name                                                    | Description                                                                                                                                                                                                                                                                                                    | Source link                                                              |
+| ------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| [Folder create directive](folder-create.directive.md)   | 'FolderCreateDirective' directive needs the id of the parent folder where we want the new folder node to be created. If no value is provided, the '-my-' alias is used.
+It opens the FolderDialogComponent to receive data for the new folder. If data is valid, on dialog close, it emits folderCreate event. | [Source](content-services/folder-directive/folder-create.directive.ts)   |
+| [Folder edit directive](folder-edit.directive.md)       | 'FolderEditDirective' directive needs a selection folder entry of #documentList to open the folder dialog component to edit the name and description properties of that selected folder.
+If data is valid, on dialog close, it emits folderEdit event.                                                         | [Source](content-services/folder-directive/folder-edit.directive.ts)     |
+| [File draggable directive](file-draggable.directive.md) | Provide drag-and-drop features for an element such as a `div`.                                                                                                                                                                                                                                                 | [Source](content-services/upload/directives/file-draggable.directive.ts) |
+
+## Models
+
+| Name                                                  | Description                                                                                                           | Source link                                                                |
+| ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| [Document library model](document-library.model.md)   | Defines classes for use with the Content Services node API.                                                           | [Source](content-services/document-list/models/document-library.model.ts)  |
+| [Permissions style model](permissions-style.model.md) | Sets custom CSS styles for rows of a [Document List](document-list.component.md) according to the item's permissions. | [Source](content-services/document-list/models/permissions-style.model.ts) |
+
+## Services
+
+| Name                                                    | Description                                                           | Source link                                                                   |
+| ------------------------------------------------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| [Document actions service](document-actions.service.md) | Implements the document menu actions for the Document List component. | [Source](content-services/document-list/services/document-actions.service.ts) |
+| [Document list service](document-list.service.md)       | Implements node operations used by the Document List component.       | [Source](content-services/document-list/services/document-list.service.ts)    |
+| [Folder actions service](folder-actions.service.md)     | Implements the folder menu actions for the Document List component.   | [Source](content-services/document-list/services/folder-actions.service.ts)   |
+| [Rating service](rating.service.md)                     | Manages ratings for items in Content Services.                        | [Source](content-services/social/services/rating.service.ts)                  |
+| [Tag service](tag.service.md)                           | Manages tags in Content Services.                                     | [Source](content-services/tag/services/tag.service.ts)                        |
+
+| Name                     | Source link                                                             |
+| ------------------------ | ----------------------------------------------------------------------- |
+| Content metadata service | [Source](content-services/content-metadata/content-metadata.service.ts) |
+
+<!--content-services end-->
+
+[(Back to Contents)](#contents)
+
+## ADF Process Services
+
+Contains components related to Process Services.
+See the library's
+[README file](../lib/process-services/README.md)
+for more information about installing and using the source code.
+
+<!--process-services start-->
+
+## Components
+
+| Name                                                                          | Description                                                                                                         | Source link                                                                              |
+| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| [Apps list component](apps-list.component.md)                                 | Shows all available apps.                                                                                           | [Source](process-services/app-list/apps-list.component.ts)                               |
+| [Create process attachment component](create-process-attachment.component.md) | Displays Upload Component (Drag and Click) to upload the attachment to a specified process instance                 | [Source](process-services/attachment/create-process-attachment.component.ts)             |
+| [Create task attachment component](create-task-attachment.component.md)       | Displays Upload Component (Drag and Click) to upload the attachment to a specified task                             | [Source](process-services/attachment/create-task-attachment.component.ts)                |
+| [Process attachment list component](process-attachment-list.component.md)     | Displays attached documents on a specified process instance                                                         | [Source](process-services/attachment/process-attachment-list.component.ts)               |
+| [Task attachment list component](task-attachment-list.component.md)           | Displays attached documents on a specified task.                                                                    | [Source](process-services/attachment/task-attachment-list.component.ts)                  |
+| [Comment list component](comment-list.component.md)                           | Shows a list of comments.                                                                                           | [Source](process-services/comments/comment-list.component.ts)                            |
+| [Comments component](comments.component.md)                                   | Displays comments from users involved in a specified task and allows an involved user to add a comment to the task. | [Source](process-services/comments/comments.component.ts)                                |
+| [Process comments component](process-comments.component.md)                   | Displays comments associated with a particular process instance and allows the user to add new comments             | [Source](process-services/comments/process-comments.component.ts)                        |
+| [People list component](people-list.component.md)                             | Shows a list of users (people).                                                                                     | [Source](process-services/people/people-list.component.ts)                               |
+| [People search component](people-search.component.md)                         | Searches users/people.                                                                                              | [Source](process-services/people/people-search.component.ts)                             |
+| [People component](people.component.md)                                       | Displays involved users to a specified task                                                                         | [Source](process-services/people/people.component.ts)                                    |
+| [Process filters component](process-filters.component.md)                     | Collection of criteria used to filter process instances, which may be customized by users.                          | [Source](process-services/process-list/components/process-filters.component.ts)          |
+| [Process instance details component](process-instance-details.component.md)   | Displays detailed information on a specified process instance                                                       | [Source](process-services/process-list/components/process-instance-details.component.ts) |
+| [Process instance header component](process-instance-header.component.md)     | Sub-component of the process details component, which renders some general information about the selected process.  | [Source](process-services/process-list/components/process-instance-header.component.ts)  |
+| [Process instance tasks component](process-instance-tasks.component.md)       | Lists both the active and completed tasks associated with a particular process instance                             | [Source](process-services/process-list/components/process-instance-tasks.component.ts)   |
+| [Process list component](process-list.component.md)                           | This component renders a list containing all the process instances matched by the parameters specified.             | [Source](process-services/process-list/components/process-list.component.ts)             |
+| [Start process component](start-process.component.md)                         | Displays Start Process, allowing the user to specify some basic details needed to start a new process instance.     | [Source](process-services/process-list/components/start-process.component.ts)            |
+| [Checklist component](checklist.component.md)                                 | Shows the checklist task functionality.                                                                             | [Source](process-services/task-list/components/checklist.component.ts)                   |
+| [Start task component](start-task.component.md)                               | Creates/Starts new task for the specified app                                                                       | [Source](process-services/task-list/components/start-task.component.ts)                  |
+| [Task details component](task-details.component.md)                           | Shows the details of the task id passed in input                                                                    | [Source](process-services/task-list/components/task-details.component.ts)                |
+| [Task filters component](task-filters.component.md)                           | Shows all available filters.                                                                                        | [Source](process-services/task-list/components/task-filters.component.ts)                |
+| [Task header component](task-header.component.md)                             | Shows all the information related to a task.                                                                        | [Source](process-services/task-list/components/task-header.component.ts)                 |
+| [Task list component](task-list.component.md)                                 | Renders a list containing all the tasks matched by the parameters specified.                                        | [Source](process-services/task-list/components/task-list.component.ts)                   |
+
+## Directives
+
+| Name                                                  | Description                                                      | Source link                                                                   |
+| ----------------------------------------------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| [Process audit directive](process-audit.directive.md) | Fetches the Process Audit information in the pdf or json format. | [Source](process-services/process-list/components/process-audit.directive.ts) |
+| [Task audit directive](task-audit.directive.md)       | Fetches the Task Audit information in the pdf or json format.    | [Source](process-services/task-list/components/task-audit.directive.ts)       |
+
+## Models
+
+| Name                            | Description                                              | Source link                                                 |
+| ------------------------------- | -------------------------------------------------------- | ----------------------------------------------------------- |
+| [Filter model](filter.model.md) | Contains classes related to filters in Process Services. | [Source](process-services/task-list/models/filter.model.ts) |
+
+## Services
+
+| Name                                                | Description                                                                 | Source link                                                                |
+| --------------------------------------------------- | --------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| [Process filter service](process-filter.service.md) | Manage Process Filters, which are pre-configured Process Instance queries.  | [Source](process-services/process-list/services/process-filter.service.ts) |
+| [Process service](process.service.md)               | Manage Process Instances, Process Variables, and Process Audit Log.         | [Source](process-services/process-list/services/process.service.ts)        |
+| [Task filter service](task-filter.service.md)       | Manage Task Filters, which are pre-configured Task Instance queries.        | [Source](process-services/task-list/services/task-filter.service.ts)       |
+| [Tasklist service](tasklist.service.md)             | Manage Task Instances.                                                      | [Source](process-services/task-list/services/tasklist.service.ts)          |
+
+| Name                | Source link                                                          |
+| ------------------- | -------------------------------------------------------------------- |
+| Task upload service | [Source](process-services/task-list/services/task-upload.service.ts) |
+
+<!--process-services end-->
+
+[(Back to Contents)](#contents)
+
+## ADF Insights
+
+Contains components for Process Services analytics and diagrams.
+See the library's
+[README file](../lib/insights/README.md)
+for more information about installing and using the source code.
+
+<!--insights start-->
+
+## Components
+
+| Name                                                                  | Description                                              | Source link                                                                        |
+| --------------------------------------------------------------------- | -------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| [Widget component](widget.component.md)                               | Base class for standard and custom widget classes.       | [Source](insights/analytics-process/components/widgets/widget.component.ts)        |
+| [Analytics generator component](analytics-generator.component.md)     | Generates and shows charts                               | [Source](insights/analytics-process/components/analytics-generator.component.ts)   |
+| [Analytics report list component](analytics-report-list.component.md) | Shows a list of all available reports                    | [Source](insights/analytics-process/components/analytics-report-list.component.ts) |
+| [Analytics component](analytics.component.md)                         | Shows the charts related to the reportId passed as input | [Source](insights/analytics-process/components/analytics.component.ts)             |
+| [Diagram component](diagram.component.md)                             | This component shows the diagram of a process.           | [Source](insights/diagram/components/diagram.component.ts)                         |
+
+<!--insights end-->
+
+[(Back to Contents)](#contents)
