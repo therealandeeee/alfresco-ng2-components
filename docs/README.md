@@ -15,15 +15,9 @@ to the appropriate source file.
 
 ## User guide
 
-<!-- guide start -->
+<!--guide start-->
 
--   [Form Extensibility and Customisation](extensibility.md)
--   [Angular Material Design](angular-material-design.md)
--   [Theming](theming.md)
--   [Typography](typography.md)
--   [Walkthrough - adding indicators to highlight information about a node](metadata-indicators.md)
-
-<!-- guide end -->
+<!--guide end-->
 
 [(Back to Contents)](#contents)
 
