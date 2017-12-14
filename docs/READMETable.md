@@ -146,11 +146,8 @@ uploaded to APS via for example a file upload dialog.                           
 | [User preferences service](user-preferences.service.md)       | Stores preferences for components.                                                                                                                                                                                                                                                                                                                                                                                                        | [Source](core/services/user-preferences.service.ts)       |
 | [Bpm user service](bpm-user.service.md)                       | Gets information about the current Process Services user.                                                                                                                                                                                                                                                                                                                                                                                 | [Source](core/userinfo/services/bpm-user.service.ts)      |
 | [Ecm user service](ecm-user.service.md)                       | Gets information about a Content Services user.                                                                                                                                                                                                                                                                                                                                                                                           | [Source](core/userinfo/services/ecm-user.service.ts)      |
-
-| Name               | Source link                                   |
-| ------------------ | --------------------------------------------- |
-| Renditions service | [Source](core/services/renditions.service.ts) |
-| Sites service      | [Source](core/services/sites.service.ts)      |
+| _Renditions service_                                          | _Not currently documented_                                                                                                                                                                                                                                                                                                                                                                                                                | [Source](core/services/renditions.service.ts)             |
+| _Sites service_                                               | _Not currently documented_                                                                                                                                                                                                                                                                                                                                                                                                                | [Source](core/services/sites.service.ts)                  |
 
 ## Widgets
 
@@ -202,11 +199,8 @@ You can subscribe to this event from your component and use the NotificationServ
 [Version Manager component](version-manager.component.md)                                                                                                                                                                                                                             | [Source](content-services/version-manager/version-list.component.ts)                           |
 | [Version manager component](version-manager.component.md)             | Displays the version history of a node with the ability to upload a new version.                                                                                                                                                                                                                                                  | [Source](content-services/version-manager/version-manager.component.ts)                        |
 | [Webscript component](webscript.component.md)                         | Another example:                                                                                                                                                                                                                                                                                                                  | [Source](content-services/webscript/webscript.component.ts)                                    |
-
-| Name                            | Source link                                                                    |
-| ------------------------------- | ------------------------------------------------------------------------------ |
-| Content metadata card component | [Source](content-services/content-metadata/content-metadata-card.component.ts) |
-| Content metadata component      | [Source](content-services/content-metadata/content-metadata.component.ts)      |
+| _Content metadata card component_                                     | _Not currently documented_                                                                                                                                                                                                                                                                                                        | [Source](content-services/content-metadata/content-metadata-card.component.ts)                 |
+| _Content metadata component_                                          | _Not currently documented_                                                                                                                                                                                                                                                                                                        | [Source](content-services/content-metadata/content-metadata.component.ts)                      |
 
 ## Directives
 
@@ -234,10 +228,7 @@ If data is valid, on dialog close, it emits folderEdit event.                   
 | [Folder actions service](folder-actions.service.md)     | Implements the folder menu actions for the Document List component.   | [Source](content-services/document-list/services/folder-actions.service.ts)   |
 | [Rating service](rating.service.md)                     | Manages ratings for items in Content Services.                        | [Source](content-services/social/services/rating.service.ts)                  |
 | [Tag service](tag.service.md)                           | Manages tags in Content Services.                                     | [Source](content-services/tag/services/tag.service.ts)                        |
-
-| Name                     | Source link                                                             |
-| ------------------------ | ----------------------------------------------------------------------- |
-| Content metadata service | [Source](content-services/content-metadata/content-metadata.service.ts) |
+| _Content metadata service_                              | _Not currently documented_                                            | [Source](content-services/content-metadata/content-metadata.service.ts)       |
 
 <!--content-services end-->
 
@@ -301,10 +292,7 @@ for more information about installing and using the source code.
 | [Process service](process.service.md)               | Manage Process Instances, Process Variables, and Process Audit Log.         | [Source](process-services/process-list/services/process.service.ts)        |
 | [Task filter service](task-filter.service.md)       | Manage Task Filters, which are pre-configured Task Instance queries.        | [Source](process-services/task-list/services/task-filter.service.ts)       |
 | [Tasklist service](tasklist.service.md)             | Manage Task Instances.                                                      | [Source](process-services/task-list/services/tasklist.service.ts)          |
-
-| Name                | Source link                                                          |
-| ------------------- | -------------------------------------------------------------------- |
-| Task upload service | [Source](process-services/task-list/services/task-upload.service.ts) |
+| _Task upload service_                               | _Not currently documented_                                                  | [Source](process-services/task-list/services/task-upload.service.ts)       |
 
 <!--process-services end-->
 
