@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as remark from "remark";
 
 
-class TreeIterator {
+class TreeNodeIterator {
     tree: any;
     pos: number;
 
@@ -22,16 +22,14 @@ class TreeIterator {
     finished(): boolean {
         return this.pos >= this.tree.children.length;
     }
-}
 
+    copy() {
+        return new TreeNodeIterator(this.tree);
+    }
 
-class ValResult {
-    succeeded: boolean;
-    errorMessage: string;
-
-    constructor(succeeded: boolean, errorMessage: string) {
-        this.succeeded = succeeded;
-        this.errorMessage = errorMessage;
+    assignFrom(other: TreeNodeIterator) {
+        this.tree = other.tree;
+        this.pos = other.pos;
     }
 }
 
@@ -44,13 +42,17 @@ class ValException {
         this.valName = valName;
         this.errorMessage = errorMessage;
     }
+
+    toString() {
+        return `Validation failed at "${this.valName}": ${this.errorMessage}`;
+    }
 }
 
 
 interface Validator {
     name: string;
 
-    validate(iter: TreeIterator): ValResult;
+    validate(iter: TreeNodeIterator);
 }
 
 
@@ -61,27 +63,35 @@ class VSeq implements Validator {
         this.name = name;
     }
 
-    validate(iter: TreeIterator): ValResult {
-        let i = 0;
-
-        while (!iter.finished() && (i < this.elements.length)) {
-            let node = iter.current();
-            let v = this.elements[i];
-
-            let res = v.validate(iter);
-
-            if (res.succeeded) {
-                i++;
-            } else {
-                console.log(res.errorMessage);
-                return res;
+    validate(iter: TreeNodeIterator) {
+        let savedIter = iter.copy();
+        try {
+            for (var i = 0; !iter.finished() && (i < this.elements.length); i++) {
+                this.elements[i].validate(iter);
             }
+        } catch (e) {
+            iter.assignFrom(savedIter);
+            throw e;
         }
-
-        return new ValResult(true, "");
     }
 }
 
+
+class VOpt implements Validator {
+    name: string;
+
+    constructor(name: string, private childValidator: Validator) {
+        this.name = name;
+    }
+
+    validate(iter: TreeNodeIterator) {
+        try {
+            this.childValidator.validate(iter);
+        } catch (e) {
+
+        }
+    }
+}
 
 class VHeading implements Validator {
     name: string;
@@ -90,17 +100,16 @@ class VHeading implements Validator {
         this.name = name;
     }
 
-    validate(iter: TreeIterator): ValResult {
+    validate(iter: TreeNodeIterator) {
         let node = iter.current();
 
         if (node.type !== "heading") {
-            return new ValResult(false, `Found ${node.type} where heading was expected`);
+            throw new ValException(this.name, `Found ${node.type} where heading was expected`);
         } else if (node.depth !== this.level) {
-            return new ValResult(false, `Heading level was ${node.depth} but ${this.level} was expected`);
-        } else {
-            iter.advance();
-            return new ValResult(true, "");
+            throw new ValException(this.name, `Heading level was ${node.depth} but ${this.level} was expected`);
         }
+        
+        iter.advance();
     }
 }
 
@@ -112,32 +121,76 @@ class VParagraph implements Validator {
         this.name = name;
     }
 
-    validate(iter: TreeIterator): ValResult {
+    validate(iter: TreeNodeIterator) {
         let node = iter.current();
 
         if (node.type !== "paragraph") {
-            return new ValResult(false, `Found ${node.type} where paragraph was expected`);
-        } else {
-            iter.advance();
-            return new ValResult(true, "");
+            throw new ValException(this.name, `Found ${node.type} where paragraph was expected`);
         }
+
+        iter.advance();
     }
 }
+
+
+class VList implements Validator {
+    name: string;
+
+    constructor(name: string, private ordered: boolean = false) {
+        this.name = name;
+    }
+
+    validate(iter: TreeNodeIterator) {
+        let node = iter.current();
+
+        if (node.type !== "list") {
+            throw new ValException(this.name, `Found ${node.type} where list was expected`);
+        } else if (node.ordered && !this.ordered) {
+            throw new ValException(this.name, `Ordered list was found but unordered list was expected`);
+        } else if (!node.ordered && this.ordered) {
+            throw new ValException(this.name, `Unordered list was found but ordered list was expected`);
+        }
+
+        iter.advance();
+    }
+}
+
+
+class MDValidator {
+    iter: TreeNodeIterator;
+
+    constructor(private rootVal: Validator) {}
+
+    validate(tree: any) {
+        this.iter = new TreeNodeIterator(tree);
+        this.rootVal.validate(this.iter);
+    }
+}
+
 
 var src = fs.readFileSync("schemaTest.md", "utf8");
 
 var tree = remark().parse(src);
 
-var iter = new TreeIterator(tree);
+//var iter = new TreeNodeIterator(tree);
 
-var seq = new VSeq("Root", [
-    new VHeading("Main title", 1),
-    new VParagraph("Brief description"),
-    new VHeading("Subheading", 2),
-    new VParagraph("Body text")
-]);
+let v = new MDValidator(
+    new VSeq("Root", [
+        new VHeading("Main title", 1),
+        new VParagraph("Brief description"),
+        new VOpt("",
+            new VSeq("Contents section", [
+                new VHeading("Contents heading", 2),
+                new VList("Contents list")
+            ])
+        ),
+        new VHeading("Subheading", 2),
+        new VParagraph("Body text")
+    ])
+);
 
-seq.validate(iter);
+v.validate(tree);
+//seq.validate(iter);
 
 //console.log(JSON.stringify(tree));
 
