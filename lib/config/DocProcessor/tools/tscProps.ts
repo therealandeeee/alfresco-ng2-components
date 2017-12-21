@@ -3,6 +3,8 @@ import * as fs from "fs";
 import * as path from "path";
 import * as program from "commander";
 
+import * as heading from "mdast-util-heading-range";
+
 import * as unist from "../unistHelpers";
 
 export function initPhase(aggData) {
@@ -18,9 +20,10 @@ export function updatePhase(tree, pathname, aggData) {
     let fileNameNoSuffix = path.basename(pathname, ".md");
 
     if (fileNameNoSuffix.match(/component/)) {
-        let srcPath = aggData.srcData[fileNameNoSuffix];
+        let srcData = aggData.srcData[fileNameNoSuffix];
 
-        if (srcPath) {
+        if (srcData) {
+            let srcPath = srcData.path;
             let className = fixCompodocFilename(fileNameNoSuffix);
 
             let inputs = [];
@@ -29,6 +32,20 @@ export function updatePhase(tree, pathname, aggData) {
 
             let inTable = buildInputsTable(inputs);
             let outTable = buildOutputsTable(outputs);
+
+            if (inTable) {
+                console.log("Made a props table");
+                heading(tree, "Properties", (before, section, after) => {
+                    return [before, inTable, after];
+                });
+            }
+
+            if (outTable) {
+                console.log("Made an events table");
+                heading(tree, "Events", (before, section, after) => {
+                    return [before, outTable, after];
+                });
+            }
         }
     }
 }
