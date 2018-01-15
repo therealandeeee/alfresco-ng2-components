@@ -1,6 +1,6 @@
 ---
-name: Accordion Component
-dob: 2018-01-15
+Version Added: 2.0
+Status: Complete
 ---
 # Accordion Component
 
