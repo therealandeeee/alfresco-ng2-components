@@ -1,3 +1,7 @@
+---
+name: Accordion Component
+dob: 2018-01-15
+---
 # Accordion Component
 
 Creates a collapsible accordion menu.
