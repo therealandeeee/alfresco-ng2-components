@@ -4,7 +4,10 @@ Below is an index of the documentation for ADF. The [User Guide](#user-guide)
 section discusses particular techniques in depth. The other sections are references for the ADF
 libraries. Click the name of an item to see its documentation or click the source link to see
 its main source file. Note that ADF is developed continuously, so the source files for some items
-may be listed here before their documentation is available. 
+may be listed here before their documentation is available.
+
+See the [Version History](versionHistory.md) for an alternative index of components ordered by
+the ADF version in which they were introduced.
 
 ## Contents
 
