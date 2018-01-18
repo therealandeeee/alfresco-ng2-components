@@ -1,5 +1,5 @@
 ---
-Introduced: v2.0.0
+Introduced: v2.0
 ---
 # Accordion Component
 

@@ -1,3 +1,6 @@
+---
+Introduced: v2.0
+---
 # Accordion Group component
 
 Adds a collapsible panel to an [accordion menu](accordion.component.md).

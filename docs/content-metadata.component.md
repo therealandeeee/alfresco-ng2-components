@@ -1,3 +1,6 @@
+---
+Introduced: v2.1
+---
 # Content Metadata Card component
 
 <!-- markdown-toc start - Don't edit this section.  npm run toc to generate it-->
