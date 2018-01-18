@@ -1,5 +1,6 @@
 ---
 Introduced: v2.0
+Status: Deprecated
 ---
 # Document List component
 

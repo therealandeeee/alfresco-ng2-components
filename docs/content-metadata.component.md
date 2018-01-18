@@ -1,5 +1,6 @@
 ---
 Introduced: v2.1
+Status: Experimental
 ---
 # Content Metadata Card component
 
