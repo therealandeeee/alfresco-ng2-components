@@ -18,6 +18,7 @@ ADF version in which they were introduced.
 
 -   [Accordion group component](accordion-group.component.md)
 -   [Accordion component](accordion.component.md)
+-   [Datatable component](datatable.component.md)
 -   [Document list component](document-list.component.md)
 
 <!--history end-->
