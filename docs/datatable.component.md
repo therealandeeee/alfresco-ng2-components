@@ -1,3 +1,7 @@
+---
+Introduced: v2.0
+Status: Deprecated
+---
 # DataTable component
 
 Displays data as a table with customizable columns and presentation.

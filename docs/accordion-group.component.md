@@ -1,6 +1,6 @@
 ---
 Introduced: v2.0
-Status: Complete
+Status: Experimental
 ---
 # Accordion Group component
 
