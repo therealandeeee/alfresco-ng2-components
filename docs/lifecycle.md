@@ -24,7 +24,7 @@ for tools which are described in more detail below. Most of the development "act
 happens in the `src/app` folder, which contains the main app sources along with a
 separate folder for each of your components.
 
-## Main development operations
+## Development
 
 ADF makes extensive use of [Angular CLI](https://github.com/angular/angular-cli)
 to manage development. Most often, you will start by using `ng serve` to run a
@@ -34,3 +34,49 @@ wait, you will see it up and running. By default, the server runs in a "watch mo
 which detects changes in your source files as you save them. It then recompiles the
 project automatically and updates the page in the browser with the latest version.
 This gives you very rapid feedback about your app as you develop it.
+
+### Adding new components
+
+The `ng generate` command in Angular CLI can be used to add components, services
+and other classes to your project. For example, you could add a new component with
+the following command:
+
+`ng generate component <my-component-name> -m app.module`
+
+This creates a new folder in the `app` folder for the component which contains the
+corresponding source files. Also, the correct declarations for the new component are
+added to the `app.module.ts` file.
+
+Note that this command can be issued from any folder within the project, not
+just the root. Also, it is generally not recommended to use the word "component" in
+your component names since this will be added automatically in the class name.
+
+The `generate` command has a number of other "blueprints" for the various different
+classes used in Angular (services, directives, enums, etc) - see its
+[webpage](https://github.com/angular/angular-cli/wiki/generate) for further details.
+
+## Linting and testing
+
+You will most likely want to check the correctness of your code before using it for
+anything serious. There are a number of Angular CLI commands you can use to run
+lint checks, unit testing and end-to-end testing on your project.
+
+### Linting
+
+*Linting* involves running an automated syntax check on your source code. This goes
+a stage further than the syntax checker in the compiler by reporting code *style* issues.
+Some of these are simply a matter of making the code look neat, but others can improve
+efficiency or security among other things. In the ADF project, linting is provided by
+the `ng lint` command. Note that unlike `ng generate`, this command must be run from the
+root folder of the project:
+
+`ng lint <options>`
+
+The options include automatic fixing of lint errors as they are found.
+See the [ng lint webpage](https://github.com/angular/angular-cli/wiki/lint) for full
+details.
+
+Linting is actually performed by the [tslint](https://github.com/angular/angular-cli/wiki/lint)
+tool. This provides many different linting rules that can be configured in the `tslint.json`
+file in the project's root folder. Learn more about the available rules at the
+[tslint website](https://palantir.github.io/tslint/rules/)
