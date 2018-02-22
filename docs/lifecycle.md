@@ -80,3 +80,79 @@ Linting is actually performed by the [tslint](https://github.com/angular/angular
 tool. This provides many different linting rules that can be configured in the `tslint.json`
 file in the project's root folder. Learn more about the available rules at the
 [tslint website](https://palantir.github.io/tslint/rules/)
+
+### Unit testing
+
+*Unit testing* is the process of running pieces of code that test components, methods or
+other "units" of code in isolation. In the ADF project, the test code is contained in a
+component's folder in a file with a `.spec.ts` suffix. For example, the app component has
+`app.component.spec.ts`, which looks like this:
+
+```ts
+// Imports...
+
+describe('AppComponent', () => {
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule,
+        AdfModule
+      ],
+      declarations: [
+        AppComponent
+      ],
+    }).compileComponents();
+  }));
+
+  it('should create the app', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    expect(app).toBeTruthy();
+  }));
+});
+```
+
+This is a minimal [Jasmine](https://jasmine.github.io/) test specification for
+the app component. The test code is run using the `it` function which in this case
+simply creates the component instance and then asserts that it has been created
+using the `expect` line. The full test suite consists of a number of these tests,
+each one asserting a different condition about the component. See the
+[Jasmine docs](https://jasmine.github.io/tutorials/your_first_suite) for more
+information about tests and the types of assertions that are available.
+
+The full set of unit tests for the project is run using a tool called
+[Karma](http://karma-runner.github.io/2.0/index.html), which is activated
+with a simple `ng test` command.
+
+### End-to-end testing
+
+*End-to-end testing* (or E2E) involves an automated process that simulates the
+mouse clicks, typing and other actions of a user in the browser. E2E uses Jasmine
+test specs contained in the project's `e2e` folder. For example, the scaffold
+`app.e2e-spec.ts` file looks like this:
+
+```ts
+import { AdfAppPage } from './app.po';
+
+describe('adf-app App', () => {
+  let page: AdfAppPage;
+
+  beforeEach(() => {
+    page = new AdfAppPage();
+  });
+
+  it('should display toolbar', () => {
+    page.navigateTo();
+    expect(page.getToolbar()).toBeDefined();
+  });
+});
+```
+
+Start E2E testing by serving the app (with `ng serve`) and then running a
+`ng e2e` command. This will start the [Protractor](http://www.protractortest.org/)
+test system, launch the browser and run the test code. See the
+[Protractor](http://www.protractortest.org/) website for more information about
+its API.
+
+## Building
+
