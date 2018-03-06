@@ -1,28 +1,34 @@
 import * as path from "path";
 import * as fs from "fs";
+import * as process from "process"
 
 import { GraphQLClient } from "graphql-request";
 import * as remark from "remark";
 import * as frontMatter from "remark-frontmatter";
 import * as yaml from "js-yaml";
 import * as moment from "moment";
+import { Observable } from 'rxjs/Rx';
 
-import * as process from "process"
 import * as libsearch from "./libsearch";
 import { Stoplist } from "./stoplist";
+import { last } from "rxjs/operator/last";
 
 
 const adf20StartDate = "2017-11-20";
 
+const commitWeight = 0.1;
+const scoreTimeBase = 60;
+
 const rootFolder = ".";
 const stoplistFilePath = path.resolve("config", "DocProcessor", "commitStoplist.json");
+
+const angFilePattern = /(component)|(directive)|(model)|(pipe)|(service)|(widget)/;
 
 let srcData = {};
 let stoplist = new Stoplist(stoplistFilePath);
 
 let docsFolderPath = path.resolve("..", "docs");
 
-console.log("Compiling list of component sources...");
 libsearch(srcData, path.resolve(rootFolder));
 
 /*
@@ -58,42 +64,89 @@ const query = `query commitHistory($path: String) {
   }
 }`;
 
-let key = "document-list.component";
+let docFiles = getDocFileNames(docsFolderPath);
 
-let vars = {
-  "path": "lib/" + srcData[key].path
-};
+let docNames = Observable.from(docFiles);
 
-client.request(query, vars).then(data => {
-    let nodes = data["repository"].ref.target.history.nodes;
+console.log("'Name','Review date','Commits since review','Score'");
 
-    let mdFilePath = path.resolve(docsFolderPath, key + ".md");
+docNames.subscribe(x => {
+  let key = path.basename(x, ".md");
 
-    let mdText = fs.readFileSync(mdFilePath);
-    let tree = remark().use(frontMatter, ["yaml"]).parse(mdText);
+  if (!srcData[key])
+    return;
 
-    let lastReviewDate = moment(adf20StartDate);
+  let vars = {
+    "path": "lib/" + srcData[key].path
+  };
 
-    if (tree.children[0].type == "yaml") {
-      let metadata = yaml.load(tree.children[0].value);
-      lastReviewDate = moment(metadata["Last reviewed"]);
-    }
+  client.request(query, vars).then(data => {
+      let nodes = data["repository"].ref.target.history.nodes;
 
-    let numUsefulCommits = 0;
+      let lastReviewDate = getDocReviewDate(key + ".md");
 
-    nodes.forEach(element => {
-      if (!stoplist.isRejected(element.message)) {
-        let abbr = element.message.substr(0, 15);
-        console.log(`${element.pushedDate}: ${abbr}`);
+      let numUsefulCommits = extractCommitInfo(nodes, lastReviewDate, stoplist);
+      let dateString = lastReviewDate.format("YYYY-MM-DD");
+      let score = priorityScore(lastReviewDate, numUsefulCommits).toPrecision(3);
 
-        let commitDate = moment(element.pushedDate);
-
-        if (commitDate.isAfter(lastReviewDate)) {
-          numUsefulCommits++;
-        }
-      }
-    });
-
-    console.log("Commits since review:" + numUsefulCommits);
+      console.log(`'${key}','${dateString}','${numUsefulCommits}','${score}'`);
+  });
 });
 
+
+function priorityScore(reviewDate, numCommits) {
+  let daysSinceReview = moment().diff(reviewDate, 'days');
+  let commitScore = 2 + numCommits * commitWeight;
+  return Math.pow(commitScore, daysSinceReview / scoreTimeBase);
+}
+
+
+function getDocReviewDate(docFileName) {
+  let mdFilePath = path.resolve(docsFolderPath, docFileName);
+
+  let mdText = fs.readFileSync(mdFilePath);
+  let tree = remark().use(frontMatter, ["yaml"]).parse(mdText);
+
+  let lastReviewDate = moment(adf20StartDate);
+
+  if (tree.children[0].type == "yaml") {
+    let metadata = yaml.load(tree.children[0].value);
+
+    if (metadata["Last reviewed"])
+      lastReviewDate = moment(metadata["Last reviewed"]);
+  }
+
+  return lastReviewDate;
+}
+
+
+function extractCommitInfo(commitNodes, cutOffDate, stoplist) {
+  let numUsefulCommits = 0;
+
+  commitNodes.forEach(element => {
+    if (!stoplist.isRejected(element.message)) {
+      let abbr = element.message.substr(0, 15);
+
+      let commitDate = moment(element.pushedDate);
+
+      if (commitDate.isAfter(cutOffDate)) {
+        numUsefulCommits++;
+      }
+    }
+  });
+
+  return numUsefulCommits;
+}
+
+
+function getDocFileNames(folderPath) {
+  let files = fs.readdirSync(folderPath);
+
+  files = files.filter(filename => 
+    (path.extname(filename) === ".md") &&
+    (filename !== "README.md") &&
+    (filename.match(angFilePattern))
+  );
+
+  return files;
+}
