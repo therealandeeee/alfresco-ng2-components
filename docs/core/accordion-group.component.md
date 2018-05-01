@@ -1,6 +1,7 @@
 ---
 Added: v2.0.0
 Status: Active
+Categories: Components, UI, Core
 ---
 
 # Accordion Group component
