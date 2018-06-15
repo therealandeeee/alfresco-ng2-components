@@ -8,23 +8,31 @@ var unist = require("../unistHelpers");
 var mdNav_1 = require("../mdNav");
 var includesFolder = path.resolve("tools", "doc", "includes");
 var dirHandlers = {
-    "proptable": function (dirObj, aggData) {
+    "proptable": function (dirObj, aggData, context) {
         console.log(JSON.stringify(dirObj.parameters));
         if (dirObj.parameters["class"]) {
             return [unist.makeText("Prop table for " + dirObj.parameters["class"])];
         }
     },
-    "croptable": function (dirObj, aggData) {
+    "croptable": function (dirObj, aggData, context) {
         if (dirObj.parameters["class"]) {
-            return [unist.makeText("Crop table for " + dirObj.parameters["class"])];
+            var textReplace = void 0;
+            if (dirObj.parameters["class"] === ".") {
+                textReplace = context.filename;
+            }
+            else {
+                textReplace = dirObj.parameters["class"];
+            }
+            return [unist.makeText("Crop table for " + textReplace)];
         }
     },
-    "include": function (dirObj, aggData) {
+    "include": function (dirObj, aggData, context) {
         var include = aggData.includes[dirObj.parameters["name"]];
         if (include) {
             var newSection = remark()
                 .data("settings", { paddedTable: false, gfm: false })
-                .parse(include).children;
+                .parse(include);
+            applyDirectives(newSection, aggData, context);
             return newSection;
         }
         else {
@@ -47,11 +55,14 @@ function aggPhase(aggData) {
 }
 exports.aggPhase = aggPhase;
 function updatePhase(tree, pathname, aggData) {
-    applyDirectives(tree, aggData);
+    var context = {
+        "filename": pathname
+    };
+    applyDirectives(tree, aggData, context);
     return true;
 }
 exports.updatePhase = updatePhase;
-function applyDirectives(tree, aggData) {
+function applyDirectives(tree, aggData, context) {
     var nav = new mdNav_1.MDNav(tree);
     var htmls = nav.findAll(function (h) { return h.type === "html" && directive(h); });
     var openDirective;
@@ -62,9 +73,20 @@ function applyDirectives(tree, aggData) {
             if (openDirective) {
                 if ((dir.name === openDirective.name) && (dir.attributes === "end")) {
                     console.log("Closing " + dir.name);
-                    var replacements = dirHandlers[dir.name](openDirective, aggData);
+                    var replacements = dirHandlers[dir.name](openDirective, aggData, context);
+                    var startPos = void 0;
+                    var numToRemove = void 0;
+                    if (openDirective.parameters["removeMarkers"]) {
+                        console.log("Removing markers");
+                        startPos = openDirPos;
+                        numToRemove = html.pos - openDirPos + 1;
+                    }
+                    else {
+                        startPos = openDirPos + 1;
+                        numToRemove = html.pos - (openDirPos + 1);
+                    }
                     if (replacements) {
-                        (_a = tree.children).splice.apply(_a, [openDirPos + 1, html.pos - (openDirPos + 1)].concat(replacements));
+                        (_a = tree.children).splice.apply(_a, [startPos, numToRemove].concat(replacements));
                     }
                     openDirective = null;
                     openDirPos = -1;
@@ -74,7 +96,6 @@ function applyDirectives(tree, aggData) {
                 }
             }
             else if (dirHandlers[dir.name]) {
-                console.log(dir.attributes);
                 if (dir.attributes !== "end") {
                     openDirective = dir;
                     openDirPos = html.pos;

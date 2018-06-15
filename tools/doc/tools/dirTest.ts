@@ -12,24 +12,34 @@ import { MDNav } from "../mdNav";
 let includesFolder = path.resolve("tools", "doc", "includes");
 
 let dirHandlers = {
-    "proptable": function(dirObj, aggData) {
+    "proptable": function(dirObj, aggData, context) {
         console.log(JSON.stringify(dirObj.parameters));
         if (dirObj.parameters["class"]) {
             return [unist.makeText(`Prop table for ${dirObj.parameters["class"]}`)];
         }
     },
-    "croptable": function(dirObj, aggData) {
+    "croptable": function(dirObj, aggData, context) {
         if (dirObj.parameters["class"]) {
-            return [unist.makeText(`Crop table for ${dirObj.parameters["class"]}`)];
+            let textReplace;
+
+            if (dirObj.parameters["class"] === ".") {
+                textReplace = context.filename;
+            } else {
+                textReplace = dirObj.parameters["class"];
+            }
+
+            return [unist.makeText(`Crop table for ${textReplace}`)];
         }
     },
-    "include": function(dirObj, aggData) {
+    "include": function(dirObj, aggData, context) {
         let include = aggData.includes[dirObj.parameters["name"]];
 
         if (include) {
             let newSection = remark()
             .data("settings", {paddedTable: false, gfm: false})
-            .parse(include).children;
+            .parse(include);
+
+            applyDirectives(newSection, aggData, context);
 
             return newSection;
         } else {
@@ -60,12 +70,16 @@ export function aggPhase(aggData) {
 
 
 export function updatePhase(tree, pathname, aggData) {
-    applyDirectives(tree, aggData);
+    let context = {
+        "filename": pathname
+    }
+
+    applyDirectives(tree, aggData, context);
     return true;
 }
 
 
-function applyDirectives(tree, aggData) {
+function applyDirectives(tree, aggData, context) {
     let nav = new MDNav(tree);
 
     let htmls = nav.findAll(h => h.type === "html" && directive(h));
@@ -80,10 +94,22 @@ function applyDirectives(tree, aggData) {
             if (openDirective) {
                 if ((dir.name === openDirective.name) && (dir.attributes === "end")) {
                     console.log(`Closing ${dir.name}`);
-                    let replacements = dirHandlers[dir.name](openDirective, aggData);
+                    let replacements = dirHandlers[dir.name](openDirective, aggData, context);
+
+                    let startPos;
+                    let numToRemove;
+
+                    if (openDirective.parameters["removeMarkers"]) {
+                        console.log("Removing markers");
+                        startPos = openDirPos;
+                        numToRemove = html.pos - openDirPos + 1;
+                    } else {
+                        startPos = openDirPos + 1;
+                        numToRemove = html.pos - (openDirPos + 1)
+                    }
 
                     if (replacements) {
-                        tree.children.splice(openDirPos + 1, html.pos - (openDirPos + 1), ...replacements);
+                        tree.children.splice(startPos, numToRemove, ...replacements);
                     }
 
                     openDirective = null;
@@ -92,7 +118,6 @@ function applyDirectives(tree, aggData) {
                     console.log(`Error: Directive "${dir.name}" needs a matching "${dir.name} end"`);
                 }
             } else if (dirHandlers[dir.name]) {
-                console.log(dir.attributes);
                 if (dir.attributes !== "end") {
                     openDirective = dir;
                     openDirPos = html.pos;

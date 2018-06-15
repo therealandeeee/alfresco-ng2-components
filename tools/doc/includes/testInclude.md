@@ -1,6 +1,10 @@
 ## Propitudinals
 
-Something here
+<!--croptable removeMarkers class=.-->
+
+Crop table for ContentNodeSelectorData
+
+<!--croptable end-->
 
 ## Eventuals
 
