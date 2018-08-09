@@ -313,6 +313,7 @@ export class MethodSigInfo {
 
 export class ComponentInfo {
     name: string;
+    displayName: string;
     role: string;
     properties: PropInfo[];
     methods: MethodSigInfo[];
@@ -323,6 +324,7 @@ export class ComponentInfo {
     sourceLine: number;
     briefDesc: string;
     metadata: any;
+    mdFilePath: string;
 
     /*
     constructor(classRef: DeclarationReflection) {
@@ -362,7 +364,7 @@ export class ComponentInfo {
 
     constructor(sourceData) {
         this.name = sourceData.items[0].name;
-
+        this.displayName = this.name.replace(/([A-Z])/g ," $1").trim();
         
         let itemType = sourceData.items[0].type;
 

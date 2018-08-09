@@ -285,6 +285,7 @@ var ComponentInfo = /** @class */ (function () {
     function ComponentInfo(sourceData) {
         var _this = this;
         this.name = sourceData.items[0].name;
+        this.displayName = this.name.replace(/([A-Z])/g, " $1").trim();
         var itemType = sourceData.items[0].type;
         if (itemType === "class") {
             this.role = this.getRoleFromName(this.name);

@@ -151,6 +151,13 @@ export class MDNav {
     }
 
 
+    yaml(test: (element: any) => boolean = () => true, index: number = 0): MDNav {
+        return this.find((h) => {
+            return h.type === "yaml" && test(h);
+        }, index);
+    }
+
+
     get item(): any {
         if (!this.root || !this.root.children) {
             return undefined;

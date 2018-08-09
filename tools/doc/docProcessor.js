@@ -11,10 +11,11 @@ var stringify = require("remark-stringify");
 var frontMatter = require("remark-frontmatter");
 var mdCompact = require("mdast-util-compact");
 
-var tdoc = require("typedoc");
 
 var ngHelpers = require("./ngHelpers");
 var si = require("./SourceInfoClasses");
+var MDNav = require("./mdNav");
+var unist = require("./unistHelpers");
 
 // "Aggregate" data collected over the whole file set.
 var aggData = {};
@@ -144,7 +145,7 @@ function initMdCache(filenames) {
 
 
 
-function initClassInfo(aggData) {
+function initClassInfo(aggData, mdCache) {
     var yamlFilenames = fs.readdirSync(path.resolve(sourceInfoFolder));
 
     aggData.classInfo = {};
@@ -153,11 +154,35 @@ function initClassInfo(aggData) {
         var classYamlText = fs.readFileSync(path.resolve(sourceInfoFolder, yamlFilename), "utf8");
         var classYaml = jsyaml.safeLoad(classYamlText);
         
+        var className = classYaml.items[0].name;
+
         if (program.verbose) {
-            console.log(classYaml.items[0].name);
+            console.log(className);
         }
 
-        aggData.classInfo[classYaml.items[0].name] = new si.ComponentInfo(classYaml);
+        var classInfo = new si.ComponentInfo(classYaml);
+        aggData.classInfo[className] = classInfo;
+
+        var classMD = mdCache[className];
+
+        if (classMD) {
+            var mdPath = classMD.pathname.replace(/\\/g, "/");
+            classInfo.mdFilePath = mdPath.substring(mdPath.indexOf("docs/") + 5);
+            nav = new MDNav.MDNav(classMD.mdInTree);
+            var briefDescNode = nav.paragraph();
+
+            if (briefDescNode.item) {
+                var briefDescMDTree = unist.makeRoot([briefDescNode.item]);
+                classInfo.briefDesc = remark().stringify(briefDescMDTree).replace(/[\r\n]+/, " ").trim();
+            }
+
+            var metadataNode = nav.yaml();
+            
+            if (metadataNode.item) {
+                var yamlText = metadataNode.value;
+                classInfo.metadata = jsyaml.load(yamlText);
+            }
+        }
     });
 }
 
@@ -223,7 +248,7 @@ var mdCache = initMdCache(files);
 
 console.log("Loading source data...");
 
-initClassInfo(aggData);
+initClassInfo(aggData, mdCache);
 
 console.log("Updating Markdown files...");
 updatePhase(mdCache, aggData);

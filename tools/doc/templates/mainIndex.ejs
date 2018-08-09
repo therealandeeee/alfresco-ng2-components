@@ -4,6 +4,51 @@
 | Name | Description | Source link |
 | -- | -- | -- |
 <% components.forEach(item => { -%>
-| <%= item.name %> | <%= item.briefDesc %> | [Source](<%- item.sourcePath %>) |
+| [<%= item.displayName %>](<%- item.mdFilePath %>) | <%= item.briefDesc %> | [Source](../<%- item.sourcePath %>) |
+<% }) -%>
+<% } %>
+<% if (hasDirectives) { %>
+### Directives
+
+| Name | Description | Source link |
+| -- | -- | -- |
+<% directives.forEach(item => { -%>
+| [<%= item.displayName %>](<%- item.mdFilePath %>) | <%= item.briefDesc %> | [Source](../<%- item.sourcePath %>) |
+<% }) -%>
+<% } %>
+<% if (hasModels) { %>
+### Models
+
+| Name | Description | Source link |
+| -- | -- | -- |
+<% models.forEach(item => { -%>
+| [<%= item.displayName %>](<%- item.mdFilePath %>) | <%= item.briefDesc %> | [Source](../<%- item.sourcePath %>) |
+<% }) -%>
+<% } %>
+<% if (hasPipes) { %>
+### Pipes
+
+| Name | Description | Source link |
+| -- | -- | -- |
+<% pipes.forEach(item => { -%>
+| [<%= item.displayName %>](<%- item.mdFilePath %>) | <%= item.briefDesc %> | [Source](../<%- item.sourcePath %>) |
+<% }) -%>
+<% } %>
+<% if (hasServices) { %>
+### Services
+
+| Name | Description | Source link |
+| -- | -- | -- |
+<% services.forEach(item => { -%>
+| [<%= item.displayName %>](<%- item.mdFilePath %>) | <%= item.briefDesc %> | [Source](../<%- item.sourcePath %>) |
+<% }) -%>
+<% } %>
+<% if (hasWidgets) { %>
+### Widgets
+
+| Name | Description | Source link |
+| -- | -- | -- |
+<% widgets.forEach(item => { -%>
+| [<%= item.displayName %>](<%- item.mdFilePath %>) | <%= item.briefDesc %> | [Source](../<%- item.sourcePath %>) |
 <% }) -%>
 <% } %>

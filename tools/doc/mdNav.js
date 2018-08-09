@@ -152,6 +152,13 @@ var MDNav = /** @class */ (function () {
             return h.type === "text" && test(h);
         }, index);
     };
+    MDNav.prototype.yaml = function (test, index) {
+        if (test === void 0) { test = function () { return true; }; }
+        if (index === void 0) { index = 0; }
+        return this.find(function (h) {
+            return h.type === "yaml" && test(h);
+        }, index);
+    };
     Object.defineProperty(MDNav.prototype, "item", {
         get: function () {
             if (!this.root || !this.root.children) {

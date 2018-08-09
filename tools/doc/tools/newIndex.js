@@ -4,7 +4,7 @@ var path = require("path");
 var fs = require("fs");
 var ejs = require("ejs");
 var remark = require("remark");
-var replaceSection = require("mdast-util-heading-range");
+var replaceSection = require("mdast-zone");
 var libNames = ["content-services", "core", "insights", "process-services"];
 var templateName = path.resolve("tools", "doc", "templates", "mainIndex.ejs");
 var indexMdFilePath = path.resolve("docs", "README.md");
@@ -17,12 +17,16 @@ function processDocs(mdCache, aggData, _errorMessages) {
         "process-services": new IndexTemplateContext()
     };
     classNames.forEach(function (className) {
-        var classSourcePath = mdCache[className].pathname.replace(/\\/, "/");
-        console.log(classSourcePath);
-        var libName = classSourcePath.match(/lib\/(content-services|core|insights|process-services)/)[0];
-        console.log(libName);
-        var classItem = aggData.classInfo[className];
-        contextObjects[libName].add(classItem);
+        var classInfo = aggData.classInfo[className];
+        if (classInfo.mdFilePath) {
+            var classSourcePath = classInfo.sourcePath;
+            var libMatch = classSourcePath.match(/lib\/(content-services|core|insights|process-services)/);
+            if (libMatch) {
+                var libName = libMatch[1];
+                var classItem = aggData.classInfo[className];
+                contextObjects[libName].add(classItem);
+            }
+        }
     });
     var indexFileText = fs.readFileSync(indexMdFilePath, "utf8");
     var indexFileTree = remark().parse(indexFileText);
@@ -44,6 +48,19 @@ function processDocs(mdCache, aggData, _errorMessages) {
 exports.processDocs = processDocs;
 var IndexTemplateContext = /** @class */ (function () {
     function IndexTemplateContext() {
+        this.components = [];
+        this.directives = [];
+        this.models = [];
+        this.pipes = [];
+        this.widgets = [];
+        this.otherClasses = [];
+        this.hasComponents = false;
+        this.hasDirectives = false;
+        this.hasModels = false;
+        this.hasPipes = false;
+        this.hasServices = false;
+        this.hasWidgets = false;
+        this.hasOtherClasses = false;
     }
     IndexTemplateContext.prototype.add = function (newItem) {
         switch (newItem.role) {

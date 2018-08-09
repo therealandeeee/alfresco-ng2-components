@@ -4,7 +4,7 @@ import * as fs from "fs";
 import * as ejs from "ejs";
 
 import * as remark from "remark";
-import * as replaceSection from "mdast-util-heading-range";
+import * as replaceSection from "mdast-zone";
 
 
 import * as si from "../SourceInfoClasses";
@@ -28,12 +28,18 @@ export function processDocs(mdCache, aggData, _errorMessages) {
     };
 
     classNames.forEach(className => {
-        let classSourcePath: string = mdCache[className].pathname.replace(/\\/, "/");
-        console.log(classSourcePath);
-        let libName = classSourcePath.match(/lib\/(content-services|core|insights|process-services)/)[0];
-        console.log(libName);
-        let classItem = aggData.classInfo[className];
-        contextObjects[libName].add(classItem);
+        let classInfo: si.ComponentInfo = aggData.classInfo[className];
+
+        if (classInfo.mdFilePath) {
+            let classSourcePath: string = classInfo.sourcePath;
+            let libMatch = classSourcePath.match(/lib\/(content-services|core|insights|process-services)/);
+            
+            if (libMatch) {
+                let libName = libMatch[1];
+                let classItem = aggData.classInfo[className];
+                contextObjects[libName].add(classItem);
+            }
+        }
     });
 
     let indexFileText = fs.readFileSync(indexMdFilePath, "utf8");
@@ -60,19 +66,30 @@ export function processDocs(mdCache, aggData, _errorMessages) {
 
 
 class IndexTemplateContext {
-    components: si.ComponentInfo[];
-    directives: si.ComponentInfo[];
-    models: si.ComponentInfo[];
-    pipes: si.ComponentInfo[];
-    widgets: si.ComponentInfo[];
-    otherClasses: si.ComponentInfo[];
+    components: si.ComponentInfo[] = [];
+    directives: si.ComponentInfo[] = [];
+    models: si.ComponentInfo[] = [];
+    pipes: si.ComponentInfo[] = [];
+    widgets: si.ComponentInfo[] = [];
+    otherClasses: si.ComponentInfo[] = [];
 
     hasComponents: boolean;
     hasDirectives: boolean;
     hasModels: boolean;
     hasPipes: boolean;
+    hasServices: boolean;
     hasWidgets: boolean;
     hasOtherClasses: boolean;
+
+    constructor() {
+        this.hasComponents = false;
+        this.hasDirectives = false;
+        this.hasModels = false;
+        this.hasPipes = false;
+        this.hasServices = false;
+        this.hasWidgets = false;
+        this.hasOtherClasses = false;
+    }
 
     add(newItem: si.ComponentInfo) {
         switch (newItem.role) {
