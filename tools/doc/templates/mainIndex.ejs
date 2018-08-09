@@ -1,54 +1,30 @@
 <% if (hasComponents) { %>
 ### Components
 
-| Name | Description | Source link |
-| -- | -- | -- |
-<% components.forEach(item => { -%>
-| [<%= item.displayName %>](<%- item.mdFilePath %>) | <%= item.briefDesc %> | [Source](../<%- item.sourcePath %>) |
-<% }) -%>
+<%- include("libsection", {items: components}); %>
 <% } %>
 <% if (hasDirectives) { %>
 ### Directives
 
-| Name | Description | Source link |
-| -- | -- | -- |
-<% directives.forEach(item => { -%>
-| [<%= item.displayName %>](<%- item.mdFilePath %>) | <%= item.briefDesc %> | [Source](../<%- item.sourcePath %>) |
-<% }) -%>
+<%- include("libsection", {items: directives}); %>
 <% } %>
 <% if (hasModels) { %>
 ### Models
 
-| Name | Description | Source link |
-| -- | -- | -- |
-<% models.forEach(item => { -%>
-| [<%= item.displayName %>](<%- item.mdFilePath %>) | <%= item.briefDesc %> | [Source](../<%- item.sourcePath %>) |
-<% }) -%>
+<%- include("libsection", {items: models}); %>
 <% } %>
 <% if (hasPipes) { %>
 ### Pipes
 
-| Name | Description | Source link |
-| -- | -- | -- |
-<% pipes.forEach(item => { -%>
-| [<%= item.displayName %>](<%- item.mdFilePath %>) | <%= item.briefDesc %> | [Source](../<%- item.sourcePath %>) |
-<% }) -%>
+<%- include("libsection", {items: pipes}); %>
 <% } %>
 <% if (hasServices) { %>
 ### Services
 
-| Name | Description | Source link |
-| -- | -- | -- |
-<% services.forEach(item => { -%>
-| [<%= item.displayName %>](<%- item.mdFilePath %>) | <%= item.briefDesc %> | [Source](../<%- item.sourcePath %>) |
-<% }) -%>
+<%- include("libsection", {items: services}); %>
 <% } %>
 <% if (hasWidgets) { %>
 ### Widgets
 
-| Name | Description | Source link |
-| -- | -- | -- |
-<% widgets.forEach(item => { -%>
-| [<%= item.displayName %>](<%- item.mdFilePath %>) | <%= item.briefDesc %> | [Source](../<%- item.sourcePath %>) |
-<% }) -%>
+<%- include("libsection", {items: widgets}); %>
 <% } %>

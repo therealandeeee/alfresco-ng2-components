@@ -31,7 +31,10 @@ function processDocs(mdCache, aggData, _errorMessages) {
     var indexFileText = fs.readFileSync(indexMdFilePath, "utf8");
     var indexFileTree = remark().parse(indexFileText);
     var templateSource = fs.readFileSync(templateName, "utf8");
-    var template = ejs.compile(templateSource, {});
+    var template = ejs.compile(templateSource, {
+        filename: templateName,
+        cache: true
+    });
     libNames.forEach(function (libName) {
         var currContext = contextObjects[libName];
         var mdText = template(currContext);
@@ -52,6 +55,7 @@ var IndexTemplateContext = /** @class */ (function () {
         this.directives = [];
         this.models = [];
         this.pipes = [];
+        this.services = [];
         this.widgets = [];
         this.otherClasses = [];
         this.hasComponents = false;
@@ -79,6 +83,10 @@ var IndexTemplateContext = /** @class */ (function () {
             case "pipe":
                 this.pipes.push(newItem);
                 this.hasPipes = true;
+                break;
+            case "service":
+                this.services.push(newItem);
+                this.hasServices = true;
                 break;
             case "widget":
                 this.widgets.push(newItem);

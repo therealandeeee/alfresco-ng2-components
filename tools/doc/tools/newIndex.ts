@@ -46,7 +46,11 @@ export function processDocs(mdCache, aggData, _errorMessages) {
     let indexFileTree = remark().parse(indexFileText);
 
     let templateSource = fs.readFileSync(templateName, "utf8");
-    let template = ejs.compile(templateSource, {});
+    
+    let template = ejs.compile(templateSource, {
+        filename: templateName,
+        cache: true
+    });
 
     libNames.forEach(libName => {
         let currContext = contextObjects[libName];
@@ -70,6 +74,7 @@ class IndexTemplateContext {
     directives: si.ComponentInfo[] = [];
     models: si.ComponentInfo[] = [];
     pipes: si.ComponentInfo[] = [];
+    services:  si.ComponentInfo[] = [];
     widgets: si.ComponentInfo[] = [];
     otherClasses: si.ComponentInfo[] = [];
 
@@ -113,6 +118,11 @@ class IndexTemplateContext {
                 this.hasPipes = true;
                 break;
             
+            case "service":
+                this.services.push(newItem);
+                this.hasServices = true;
+                break;
+
             case "widget":
                 this.widgets.push(newItem);
                 this.hasWidgets = true;
