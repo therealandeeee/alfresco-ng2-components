@@ -40,13 +40,14 @@ function updatePhase(mdCache, aggData) {
         toolModules[toolName].processDocs(mdCache, aggData, errorMessages);
     });
 
-    var filenames = Object.keys(mdCache);
+    var classNames = Object.keys(mdCache);
     
 
-    for (var i = 0; i < filenames.length; i++) {
-        var pathname = filenames[i];
-        var tree = mdCache[pathname].mdOutTree;
-        var original = mdCache[pathname].mdInTree;
+    for (var i = 0; i < classNames.length; i++) {
+        var className = classNames[i];
+        var tree = mdCache[className].mdOutTree;
+        var original = mdCache[className].mdInTree;
+        var pathname = mdCache[className].pathname;
 
         if (program.json) {
             let filename = path.basename(pathname);
@@ -62,7 +63,7 @@ function updatePhase(mdCache, aggData) {
                 console.log(`Modified: ${pathname}`);
             }
 
-            fs.writeFileSync(filenames[i], remark().use(frontMatter, {type: 'yaml', fence: '---'}).data("settings", {paddedTable: false, gfm: false}).stringify(tree));
+            fs.writeFileSync(pathname, remark().use(frontMatter, {type: 'yaml', fence: '---'}).data("settings", {paddedTable: false, gfm: false}).stringify(tree));
         }
     }
 }
@@ -128,72 +129,19 @@ function initMdCache(filenames) {
 
     for (var i = 0; i < filenames.length; i++) {
         var pathname = filenames[i];
-        mdCache[pathname] = {};
+        var className = ngHelpers.ngNameToClassName(path.basename(pathname, ".md"), config["typeNameExceptions"]);
+        mdCache[className] = {};
 
         var src = fs.readFileSync(pathname);
         var tree = remark().use(frontMatter, ["yaml"]).parse(src);
-        mdCache[pathname].mdInTree = minimiseTree(tree);
-        mdCache[pathname].mdOutTree = minimiseTree(tree);
+        mdCache[className].mdInTree = minimiseTree(tree);
+        mdCache[className].mdOutTree = minimiseTree(tree);
+        mdCache[className].pathname = pathname;
     }
 
     return mdCache;
 }
 
-
-function getSourceInfo(infoFolder) {
-    var sourceInfo = {};
-
-    var yamlFiles = fs.readdirSync(infoFolder);
-
-    yamlFiles.forEach(file => {
-        var yamlText = fs.readFileSync(path.resolve(infoFolder, file), "utf8");
-        var yaml = jsyaml.safeLoad(yamlText);
-        sou
-    });
-}
-
-
-function initSourceInfo(aggData, mdCache) {
-
-    var app = new tdoc.Application({
-        exclude: excludePatterns,
-        ignoreCompilerErrors: true,
-        experimentalDecorators: true,
-        tsconfig: "tsconfig.json"
-    });
-
-    let sources = app.expandInputFiles(libFolders.map(folder => {
-        return path.resolve("lib", folder);
-    }));    
-    
-    aggData.projData = app.convert(sources);
-
-
-    aggData.classInfo = {};
-
-    var mdFiles = Object.keys(mdCache);
-
-    mdFiles.forEach(mdFile => {
-        /*
-        var className = ngHelpers.ngNameToClassName(path.basename(mdFile, ".md"), aggData.config.typeNameExceptions);
-        var classRef = aggData.projData.findReflectionByName(className);
-*/
-
-        var className = ngHelpers.ngNameToClassName(path.basename(mdFile, ".md"), aggData.config.typeNameExceptions);
-        var yamlText = fs.readFileSync(path.resolve(sourceInfoFolder, className + ".yml"), "utf8");
-        var yaml = jsyaml.safeLoad(yamlText);
-
-        if (yaml) {
-            aggData.classInfo[className] = new si.ComponentInfo(yaml);
-        }
-/*
-        if (classRef) {
-           aggData.classInfo[className] = new si.ComponentInfo(classRef); 
-        }
-        */
-
-    });
-}
 
 
 function initClassInfo(aggData) {
@@ -274,20 +222,8 @@ files = files.filter(filename =>
 var mdCache = initMdCache(files);
 
 console.log("Loading source data...");
-//initSourceInfo(aggData, mdCache);
 
 initClassInfo(aggData);
-
-/*
-console.log("Initialising...");
-initPhase(aggData);
-
-console.log("Analysing Markdown files...");
-readPhase(mdCache, aggData);
-
-console.log("Computing aggregate data...");
-aggPhase(aggData);
-*/
 
 console.log("Updating Markdown files...");
 updatePhase(mdCache, aggData);

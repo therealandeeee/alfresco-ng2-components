@@ -1,0 +1,9 @@
+<% if (hasComponents) { %>
+### Components
+
+| Name | Description | Source link |
+| -- | -- | -- |
+<% components.forEach(item => { -%>
+| <%= item.name %> | <%= item.briefDesc %> | [Source](<%- item.sourcePath %>) |
+<% }) -%>
+<% } %>

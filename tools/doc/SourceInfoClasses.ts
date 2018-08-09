@@ -312,6 +312,8 @@ export class MethodSigInfo {
 
 
 export class ComponentInfo {
+    name: string;
+    role: string;
     properties: PropInfo[];
     methods: MethodSigInfo[];
     hasInputs: boolean;
@@ -319,6 +321,8 @@ export class ComponentInfo {
     hasMethods: boolean;
     sourcePath: string;
     sourceLine: number;
+    briefDesc: string;
+    metadata: any;
 
     /*
     constructor(classRef: DeclarationReflection) {
@@ -357,12 +361,27 @@ export class ComponentInfo {
 */
 
     constructor(sourceData) {
+        this.name = sourceData.items[0].name;
+
+        
+        let itemType = sourceData.items[0].type;
+
+        if (itemType === "class") {
+            this.role = this.getRoleFromName(this.name);
+
+            if (!this.role) {
+                this.role = "class";
+            }
+        }
+
         this.hasInputs = false;
         this.hasOutputs = false;
         this.hasMethods = false;
 
         this.sourcePath = sourceData.items[0].source.path;
         this.sourceLine = sourceData.items[0].source.line;
+        this.briefDesc = "";
+        this.metadata = {};
 
         this.properties = [];
         this.methods = [];
@@ -416,5 +435,16 @@ export class ComponentInfo {
         });
 
         return combinedErrors;
+    }
+
+
+    getRoleFromName(name: string) {
+        let nameInfo = name.match(/(Component|Directive|Model|Pipe|Service|Widget)/);
+
+        if (nameInfo) {
+            return nameInfo[1].toLowerCase();
+        } else {
+            return "";
+        }
     }
 }

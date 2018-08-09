@@ -284,11 +284,21 @@ var ComponentInfo = /** @class */ (function () {
 */
     function ComponentInfo(sourceData) {
         var _this = this;
+        this.name = sourceData.items[0].name;
+        var itemType = sourceData.items[0].type;
+        if (itemType === "class") {
+            this.role = this.getRoleFromName(this.name);
+            if (!this.role) {
+                this.role = "class";
+            }
+        }
         this.hasInputs = false;
         this.hasOutputs = false;
         this.hasMethods = false;
         this.sourcePath = sourceData.items[0].source.path;
         this.sourceLine = sourceData.items[0].source.line;
+        this.briefDesc = "";
+        this.metadata = {};
         this.properties = [];
         this.methods = [];
         sourceData.items.forEach(function (item) {
@@ -335,6 +345,15 @@ var ComponentInfo = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    ComponentInfo.prototype.getRoleFromName = function (name) {
+        var nameInfo = name.match(/(Component|Directive|Model|Pipe|Service|Widget)/);
+        if (nameInfo) {
+            return nameInfo[1].toLowerCase();
+        }
+        else {
+            return "";
+        }
+    };
     return ComponentInfo;
 }());
 exports.ComponentInfo = ComponentInfo;

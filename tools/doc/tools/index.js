@@ -51,10 +51,10 @@ function initPhase(aggData) {
 
 
 function readPhase(mdCache, aggData) {
-    var pathnames = Object.keys(mdCache);
+    var classNames = Object.keys(mdCache);
 
-    pathnames.forEach(pathname => {
-        getFileData(mdCache[pathname].mdInTree, pathname, aggData);
+    classNames.forEach(className => {
+        getFileData(mdCache[className].mdInTree, mdCache[className].pathname, aggData);
     });
 }
 
