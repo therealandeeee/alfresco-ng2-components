@@ -10,6 +10,7 @@ var parse = require("remark-parse");
 var stringify = require("remark-stringify");
 var frontMatter = require("remark-frontmatter");
 var mdCompact = require("mdast-util-compact");
+var mdToString = require("mdast-util-to-string");
 
 
 var ngHelpers = require("./ngHelpers");
@@ -173,7 +174,7 @@ function initClassInfo(aggData, mdCache) {
 
             if (briefDescNode.item) {
                 var briefDescMDTree = unist.makeRoot([briefDescNode.item]);
-                classInfo.briefDesc = remark().stringify(briefDescMDTree).replace(/[\r\n]+/, " ").trim();
+                classInfo.briefDesc = mdToString(briefDescMDTree).replace(/[\r\n]+/, " ").trim();//remark().stringify(briefDescMDTree).replace(/[\r\n]+/, " ").trim();
             }
 
             var metadataNode = nav.yaml();

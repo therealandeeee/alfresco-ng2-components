@@ -141,6 +141,7 @@
     "markdownlint-cli": "^0.12.0",
     "mdast-util-compact": "^1.0.1",
     "mdast-util-heading-range": "^2.1.0",
+    "mdast-util-to-string": "^1.0.4",
     "mdast-util-toc": "^2.0.1",
     "mdast-zone": "^3.0.1",
     "merge-stream": "1.0.1",
