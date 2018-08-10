@@ -4,8 +4,7 @@ import * as fs from "fs";
 import * as ejs from "ejs";
 
 import * as remark from "remark";
-import * as replaceSection from "mdast-zone";
-
+import * as replaceZone from "mdast-zone";
 
 import * as si from "../SourceInfoClasses";
 
@@ -16,31 +15,8 @@ let templateName = path.resolve("tools", "doc", "templates", "mainIndex.ejs");
 let indexMdFilePath = path.resolve("docs", "README.md");
 
 
-
 export function processDocs(mdCache, aggData, _errorMessages) {
-    let classNames = Object.keys(aggData.classInfo);
-
-    let contextObjects = {
-        "content-services": new IndexTemplateContext(),
-        "core": new IndexTemplateContext(),
-        "insights": new IndexTemplateContext(),
-        "process-services": new IndexTemplateContext()
-    };
-
-    classNames.forEach(className => {
-        let classInfo: si.ComponentInfo = aggData.classInfo[className];
-
-        if (classInfo.mdFilePath) {
-            let classSourcePath: string = classInfo.sourcePath;
-            let libMatch = classSourcePath.match(/lib\/(content-services|core|insights|process-services)/);
-            
-            if (libMatch) {
-                let libName = libMatch[1];
-                let classItem = aggData.classInfo[className];
-                contextObjects[libName].add(classItem);
-            }
-        }
-    });
+    let contextObjects = buildLibraryContextObjects(aggData)
 
     let indexFileText = fs.readFileSync(indexMdFilePath, "utf8");
     let indexFileTree = remark().parse(indexFileText);
@@ -54,15 +30,27 @@ export function processDocs(mdCache, aggData, _errorMessages) {
 
     libNames.forEach(libName => {
         let currContext = contextObjects[libName];
-        let mdText = template(currContext);
-        let newSection = remark().parse(mdText.trim()).children;
+        
+        generateZoneFromTemplate(indexFileTree, libName, template, currContext);
 
-        replaceSection(indexFileTree, libName, (before, section, after) => {
-            newSection.unshift(before);
-            newSection.push(after);
-            return newSection;
-        });
+        let subIndexFilePath = path.resolve("docs", libName, "README.md");
+        let subIndexFileText = fs.readFileSync(subIndexFilePath, "utf8");
+        let subIndexFileTree = remark().parse(subIndexFileText);
+        
+        currContext.urlPrefix = "../";
+
+        generateZoneFromTemplate(subIndexFileTree, libName, template, currContext);
+
+        let newSubIndexText = remark().data("settings", {paddedTable: false}).stringify(subIndexFileTree);
+        fs.writeFileSync(subIndexFilePath, newSubIndexText);
     });
+
+    /*
+    let ugContextFileText = fs.readFileSync(path.resolve("docs", "user-guide", "summary.json"), "utf8");
+    let ugContext = JSON.parse(ugContextFileText);
+
+    let ugIndexFilePath = path.resolve("docs", "user-guide", "README.md");
+*/
 
     let newIndexText = remark().data("settings", {paddedTable: false}).stringify(indexFileTree);
     fs.writeFileSync(indexMdFilePath, newIndexText);
@@ -70,6 +58,7 @@ export function processDocs(mdCache, aggData, _errorMessages) {
 
 
 class IndexTemplateContext {
+    urlPrefix: string = "";
     components: si.ComponentInfo[] = [];
     directives: si.ComponentInfo[] = [];
     models: si.ComponentInfo[] = [];
@@ -133,4 +122,45 @@ class IndexTemplateContext {
                 this.hasOtherClasses = true;
         }
     }
+}
+
+
+function buildLibraryContextObjects(aggData) {
+    let classNames = Object.keys(aggData.classInfo);
+
+    let contextObjects = {
+        "content-services": new IndexTemplateContext(),
+        "core": new IndexTemplateContext(),
+        "insights": new IndexTemplateContext(),
+        "process-services": new IndexTemplateContext()
+    };
+
+    classNames.forEach(className => {
+        let classInfo: si.ComponentInfo = aggData.classInfo[className];
+
+        if (classInfo.mdFilePath) {
+            let classSourcePath: string = classInfo.sourcePath;
+            let libMatch = classSourcePath.match(/lib\/(content-services|core|insights|process-services)/);
+            
+            if (libMatch) {
+                let libName = libMatch[1];
+                let classItem = aggData.classInfo[className];
+                contextObjects[libName].add(classItem);
+            }
+        }
+    });
+
+    return contextObjects;
+}
+
+
+function generateZoneFromTemplate(tree, zoneName, template, context) {
+    let mdText = template(context);
+    let newSection = remark().parse(mdText.trim()).children;
+
+    replaceZone(tree, zoneName, (before, section, after) => {
+        newSection.unshift(before);
+        newSection.push(after);
+        return newSection;
+    });
 }

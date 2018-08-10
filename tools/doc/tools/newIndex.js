@@ -4,7 +4,7 @@ var path = require("path");
 var fs = require("fs");
 var ejs = require("ejs");
 var remark = require("remark");
-var replaceSection = require("mdast-zone");
+var replaceZone = require("mdast-zone");
 var libNames = ["content-services", "core", "insights", "process-services"];
 var templateName = path.resolve("tools", "doc", "templates", "mainIndex.ejs");
 var indexMdFilePath = path.resolve("docs", "README.md");
@@ -39,11 +39,24 @@ function processDocs(mdCache, aggData, _errorMessages) {
         var currContext = contextObjects[libName];
         var mdText = template(currContext);
         var newSection = remark().parse(mdText.trim()).children;
-        replaceSection(indexFileTree, libName, function (before, section, after) {
+        replaceZone(indexFileTree, libName, function (before, section, after) {
             newSection.unshift(before);
             newSection.push(after);
             return newSection;
         });
+        var subIndexFilePath = path.resolve("docs", libName, "README.md");
+        var subIndexFileText = fs.readFileSync(subIndexFilePath, "utf8");
+        var subIndexFileTree = remark().parse(subIndexFileText);
+        currContext.urlPrefix = "../";
+        mdText = template(currContext);
+        newSection = remark().parse(mdText.trim()).children;
+        replaceZone(subIndexFileTree, libName, function (before, section, after) {
+            newSection.unshift(before);
+            newSection.push(after);
+            return newSection;
+        });
+        var newSubIndexText = remark().data("settings", { paddedTable: false }).stringify(subIndexFileTree);
+        fs.writeFileSync(subIndexFilePath, newSubIndexText);
     });
     var newIndexText = remark().data("settings", { paddedTable: false }).stringify(indexFileTree);
     fs.writeFileSync(indexMdFilePath, newIndexText);
@@ -51,6 +64,7 @@ function processDocs(mdCache, aggData, _errorMessages) {
 exports.processDocs = processDocs;
 var IndexTemplateContext = /** @class */ (function () {
     function IndexTemplateContext() {
+        this.urlPrefix = "";
         this.components = [];
         this.directives = [];
         this.models = [];

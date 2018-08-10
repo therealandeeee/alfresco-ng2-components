@@ -1,5 +1,7 @@
 | Name | Description | Source link |
 | -- | -- | -- |
 <% items.forEach(item => { -%>
-| [<%= item.displayName %>](<%- item.mdFilePath %>) | <%= item.briefDesc %> | [Source](../<%- item.sourcePath %>) |
+| [<%= item.displayName %>](<%- prefix + item.mdFilePath %>)<% if ((typeof item.metadata["Status"] !== "undefined") && (item.metadata["Status"] !== "Active")) { -%>
+ ![<%= item.metadata["Status"] %> icon](<%- prefix %>docassets/images/<%= item.metadata["Status"] %>Icon.png) <% } -%>
+| <%= item.briefDesc %> | [Source](<%- prefix %>../<%- item.sourcePath %>) |
 <% }) -%>
