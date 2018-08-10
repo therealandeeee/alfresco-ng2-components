@@ -11,6 +11,7 @@ import * as si from "../SourceInfoClasses";
 
 let libNames = ["content-services", "core", "insights", "process-services"];
 let templateName = path.resolve("tools", "doc", "templates", "mainIndex.ejs");
+let ugTemplateName = path.resolve("tools", "doc", "templates", "ugIndex.ejs");
 
 let indexMdFilePath = path.resolve("docs", "README.md");
 
@@ -45,12 +46,31 @@ export function processDocs(mdCache, aggData, _errorMessages) {
         fs.writeFileSync(subIndexFilePath, newSubIndexText);
     });
 
-    /*
+    
     let ugContextFileText = fs.readFileSync(path.resolve("docs", "user-guide", "summary.json"), "utf8");
-    let ugContext = JSON.parse(ugContextFileText);
+    let ugContext = {
+        "urlPrefix": "",
+        "indexItems": JSON.parse(ugContextFileText)
+    };
+
+    let ugTemplateSource = fs.readFileSync(ugTemplateName, "utf8");
+    
+    let ugTemplate = ejs.compile(ugTemplateSource, {
+        filename: ugTemplateName,
+        cache: true
+    });
+
+    generateZoneFromTemplate(indexFileTree, "guide", ugTemplate, ugContext);
 
     let ugIndexFilePath = path.resolve("docs", "user-guide", "README.md");
-*/
+    let ugIndexFileText = fs.readFileSync(ugIndexFilePath, "utf8");
+    let ugIndexFileTree = remark().parse(ugIndexFileText);
+    ugContext.urlPrefix = "../";
+
+    generateZoneFromTemplate(ugIndexFileTree, "guide", ugTemplate, ugContext);
+
+    let newUgIndexText = remark().data("settings", {paddedTable: false}).stringify(ugIndexFileTree);
+    fs.writeFileSync(ugIndexFilePath, newUgIndexText);
 
     let newIndexText = remark().data("settings", {paddedTable: false}).stringify(indexFileTree);
     fs.writeFileSync(indexMdFilePath, newIndexText);

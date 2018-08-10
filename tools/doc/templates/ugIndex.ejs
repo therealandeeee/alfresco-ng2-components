@@ -1,0 +1,5 @@
+<% indexItems.forEach(item => {
+if (item.title !== "Tutorials") { -%>
+-  [<%- item.title %>](<%- urlPrefix %>user-guide/<%- item.file %>)
+<% }
+}); %>
