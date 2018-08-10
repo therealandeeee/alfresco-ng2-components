@@ -17,6 +17,8 @@ var ngHelpers = require("./ngHelpers");
 var si = require("./SourceInfoClasses");
 var MDNav = require("./mdNav");
 var unist = require("./unistHelpers");
+var nameLookup = require("./NameLookup");
+
 
 // "Aggregate" data collected over the whole file set.
 var aggData = {};
@@ -126,7 +128,7 @@ function getAllDocFilePaths(docFolder, files) {
 }
 
 
-function initMdCache(filenames) {
+function initMdCache(filenames, aggData) {
     var mdCache = {};
 
     for (var i = 0; i < filenames.length; i++) {
@@ -163,6 +165,8 @@ function initClassInfo(aggData, mdCache) {
 
         var classInfo = new si.ComponentInfo(classYaml);
         aggData.classInfo[className] = classInfo;
+
+        classInfo.displayName = aggData.nameLookup.classToDisplayName(className);
 
         var classMD = mdCache[className];
 
@@ -218,6 +222,7 @@ var toolModules = loadToolModules();
 
 var config = loadConfig();
 aggData['config'] = config;
+aggData["nameLookup"] = new nameLookup.NameLookup(config.typeNameExceptions);
 
 var toolList;
 
@@ -245,7 +250,7 @@ files = files.filter(filename =>
 );
 
 
-var mdCache = initMdCache(files);
+var mdCache = initMdCache(files, aggData);
 
 console.log("Loading source data...");
 

@@ -28,3 +28,8 @@
 
 <%- include("libsection", {items: widgets, prefix: urlPrefix}); %>
 <% } %>
+<% if (hasOtherClasses) { %>
+### Other classes
+
+<%- include("libsection", {items: otherClasses, prefix: urlPrefix}); %>
+<% } %>

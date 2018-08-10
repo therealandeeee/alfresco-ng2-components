@@ -45,15 +45,25 @@
         "SitePaging": "https://github.com/Alfresco/alfresco-js-api/blob/master/src/alfresco-core-rest-api/docs/SitePaging.md"
     },
     "typeNameExceptions": {
+        "activiti-alfresco.service": "ActivitiContentService",
+        "auth-guard.service": "AuthGuard",
+        "auth-guard-bpm.service": "AuthGuardBpm",
+        "auth-guard-ecm.service": "AuthGuardEcm",
+        "content.widget": "ContentWidgetComponent",
         "datatable.component": "DataTableComponent",
         "tasklist.service": "TaskListService",
         "text-mask.component": "InputMaskDirective",
         "card-item-types.service": "CardItemTypeService",
         "create-task-attachment.component": "AttachmentComponent",
+        "permissions-style.model": "PermissionStyleModel",
         "process-list.component": "ProcessInstanceListComponent",
+        "product-version.model": "BpmProductVersionModel",
         "inherited-button.directive": "InheritPermissionDirective",
         "node-share.directive": "NodeSharedDirective",
-        "sites-dropdown.component": "DropdownSitesComponent"
+        "sites-dropdown.component": "DropdownSitesComponent",
+        "start-process.component": "StartProcessInstanceComponent",
+        "text-highlight.pipe": "HighlightPipe",
+        "user-initial.pipe": "InitialUsernamePipe"
     },
     "undocStoplist": [
         "model",
