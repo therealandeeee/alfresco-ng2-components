@@ -49,6 +49,7 @@ function interestedIn(itemKind) {
 
 function processItem(item) {
     //console.log(`Generating ${item.name}`);
+    
     var docText = template(item);
     fs.writeFileSync(path.resolve(outputFolder, item.name + ".yml"), docText); 
 }

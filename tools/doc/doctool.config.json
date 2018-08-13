@@ -1,7 +1,7 @@
 {
     "profiles": {
         "default": [
-            "index",
+            "newIndex",
             "versionIndex",
             "tutorialIndex",
             "tsInfo",
@@ -9,7 +9,7 @@
             "toc"
         ],
         "index": [
-            "index",
+            "newIndex",
             "versionIndex",
             "tutorialIndex"
         ],
