@@ -1,7 +1,7 @@
 import * as si from "../SourceInfoClasses";
 
 
-export function processDocs(mdCache, aggData, errorMessages) {
+export function processDocs(mdCache, aggData, _errorMessages) {
     let stoplist = makeStoplist(aggData.config);
 
     let classNames = Object.keys(aggData.classInfo);
@@ -13,7 +13,7 @@ export function processDocs(mdCache, aggData, errorMessages) {
             let docFileName = aggData.nameLookup.classToDocName(className);
             
             if (!rejectItemViaStoplist(stoplist, docFileName)) {
-                errorMessages.push(`Warning: class ${className} has no corresponding Markdown file`);
+                console.log(`Warning: class ${className} has no corresponding Markdown file`);
             }
         }
     });

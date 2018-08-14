@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-function processDocs(mdCache, aggData, errorMessages) {
+function processDocs(mdCache, aggData, _errorMessages) {
     var stoplist = makeStoplist(aggData.config);
     var classNames = Object.keys(aggData.classInfo);
     classNames.forEach(function (className) {
@@ -8,7 +8,7 @@ function processDocs(mdCache, aggData, errorMessages) {
         if (className.match(/component|directive|model|pipe|service|widget$/i) && !mdCache[className]) {
             var docFileName = aggData.nameLookup.classToDocName(className);
             if (!rejectItemViaStoplist(stoplist, docFileName)) {
-                errorMessages.push("Warning: class " + className + " has no corresponding Markdown file");
+                console.log("Warning: class " + className + " has no corresponding Markdown file");
             }
         }
     });
