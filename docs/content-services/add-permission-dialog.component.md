@@ -28,7 +28,9 @@ import { NodePermissionDialogService } from '@alfresco/adf-content-services';
 
 ## Details
 
-This component extends the [Add permission panel component](../content-services/add-permission-panel.component.md)
+This component extends the [Add permission panel component](../content-services/add-permission-panel.component.md "
+**Add permission panel component**
+Displays a dialog to search for people or groups to add to the current node permissions.")
 to apply the chosen selection of permissions when they are accepted.
 You can open the dialog with the [Node Permission Dialog Service](../content-services/node-permission-dialog.service.md). This returns Observables that
 you can subscribe to for get the details of the node after the update.
