@@ -5,6 +5,9 @@ See the library's
 [README file](../../lib/content-services/README.md)
 for more information about installing and using the source code.
 
+See the docs for 2.x
+[here](https://github.com/therealandeeee/alfresco-ng2-components/tree/28e3349e7418b088118f14cfb13366e2aadb6f7d/docs)
+
 <!--content-services start-->
 
 ## Components
