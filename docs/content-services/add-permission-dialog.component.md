@@ -4,6 +4,9 @@ Status: Active
 Last reviewed: 2018-05-03
 ---
 
+**Warning!** These are the docs for ADF version 2.x.
+Click [here](https://github.com/Alfresco/alfresco-ng2-components/tree/development/docs) to see the docs for the current version.
+
 # Add Permission Dialog Component
 
 Displays a dialog to search for people or groups to add to the current node permissions.
