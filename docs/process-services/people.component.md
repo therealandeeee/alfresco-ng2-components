@@ -65,6 +65,8 @@ In this way will be easy customize the [people component](../process-services/pe
 
 ![involve-people-single-click-and-close-search](../docassets/images/involve-people-single-click-and-close-search.mp4)
 
+<video src="../docassets/images/involve-people-single-click-and-close-search.mp4"></video>
+
 ### Involve People single click without close search
 
 ```html
