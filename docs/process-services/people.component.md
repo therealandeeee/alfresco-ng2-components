@@ -63,9 +63,8 @@ In this way will be easy customize the [people component](../process-services/pe
 </adf-people>
 ```
 
-![involve-people-single-click-and-close-search](../docassets/images/involve-people-single-click-and-close-search.mp4)
+![involve-people-single-click-and-close-search](../docassets/images/involve-people-single-click-and-close-search.png)
 
-<video src="../docassets/images/involve-people-single-click-and-close-search.mp4"></video>
 
 ### Involve People single click without close search
 
