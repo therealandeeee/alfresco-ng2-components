@@ -3,8 +3,8 @@ var path = require("path");
 var ejs = require("ejs");
 
 
-var templateFolder = path.resolve("tools", "doc", "yamlTemplates");
-var outputFolder = path.resolve("docs", "sourceinfo");
+var templateFolder = path.resolve(__dirname, "yamlTemplates");
+
 
 if (process.argv.length < 3) {
     console.log("Error: Source filename required");
@@ -13,11 +13,14 @@ if (process.argv.length < 3) {
 
 console.log(`Processing ${process.argv[2]}`);
 
+var jsonFilePath = path.resolve(process.argv[2]);
+var outputFolder = path.resolve(path.dirname(jsonFilePath), "sourceinfo");
+
 if (!fs.existsSync(outputFolder)) {
     fs.mkdirSync(outputFolder);
 }
 
-var docData = JSON.parse(fs.readFileSync(path.resolve(process.argv[2]), "utf8"));
+var docData = JSON.parse(fs.readFileSync(jsonFilePath, "utf8"));
 var tempFilename = path.resolve(templateFolder, "template.ejs");
 var tempSource = fs.readFileSync(tempFilename, "utf8");
 var template = ejs.compile(

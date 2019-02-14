@@ -6,32 +6,36 @@ var lodash = require("lodash");
 var jsyaml = require("js-yaml");
 
 var remark = require("remark");
-var parse = require("remark-parse");
-var stringify = require("remark-stringify");
+//var parse = require("remark-parse");
+//var stringify = require("remark-stringify");
 var frontMatter = require("remark-frontmatter");
 var mdCompact = require("mdast-util-compact");
 
-var tdoc = require("typedoc");
+//var tdoc = require("typedoc");
 
-var ngHelpers = require("./ngHelpers");
+//var ngHelpers = require("./ngHelpers");
 var si = require("./SourceInfoClasses");
 
 // "Aggregate" data collected over the whole file set.
 var aggData = {};
 
-var toolsFolderName = "tools";
-var configFileName = "doctool.config.json";
-var defaultFolder = path.resolve("docs");
-var sourceInfoFolder = path.resolve("docs", "sourceinfo");
+const toolsFolderName = "tools";
+const configFileName = "doctool.config.json";
+const tsSourceInfoFolderName = 'sourceinfo';
 
+var defaultFolder = path.resolve("docs");
+//var sourceInfoFolder = path.resolve("docs", "sourceinfo");
+
+/*
 var libFolders = [
     "core", "content-services", "process-services",
     "insights", "process-services-cloud", "extensions"
 ];
+*/
 
-var excludePatterns = [
-    "**/*.spec.ts"
-];
+//var excludePatterns = [
+//    "**/*.spec.ts"
+//];
 
 
 function updatePhase(mdCache, aggData) {
@@ -70,14 +74,14 @@ function updatePhase(mdCache, aggData) {
     }
 }
 
-
+/*
 function deepCopy(obj) {
     // Despite how it looks, this technique is apparently quite efficient
     // because the JSON routines are implemented in C code and faster
     // than the equivalent JavaScript loops ;-)
     return JSON.parse(JSON.stringify(obj));
 }
-
+*/
 
 function minimiseTree(tree) {
     let minPropsTree = JSON.parse(JSON.stringify(tree, (key, value) => key === "position" ? undefined : value));
@@ -142,7 +146,7 @@ function initMdCache(filenames) {
     return mdCache;
 }
 
-
+/*
 function getSourceInfo(infoFolder) {
     var sourceInfo = {};
 
@@ -177,10 +181,6 @@ function initSourceInfo(aggData, mdCache) {
     var mdFiles = Object.keys(mdCache);
 
     mdFiles.forEach(mdFile => {
-        /*
-        var className = ngHelpers.ngNameToClassName(path.basename(mdFile, ".md"), aggData.config.typeNameExceptions);
-        var classRef = aggData.projData.findReflectionByName(className);
-*/
 
         var className = ngHelpers.ngNameToClassName(path.basename(mdFile, ".md"), aggData.config.typeNameExceptions);
         var yamlText = fs.readFileSync(path.resolve(sourceInfoFolder, className + ".yml"), "utf8");
@@ -189,23 +189,18 @@ function initSourceInfo(aggData, mdCache) {
         if (yaml) {
             aggData.classInfo[className] = new si.ComponentInfo(yaml);
         }
-/*
-        if (classRef) {
-           aggData.classInfo[className] = new si.ComponentInfo(classRef);
-        }
-        */
 
     });
 }
+*/
 
-
-function initClassInfo(aggData) {
-    var yamlFilenames = fs.readdirSync(path.resolve(sourceInfoFolder));
-
+function initClassInfo(tsSourceInfoFolder, aggData) {
+    //var yamlFilenames = fs.readdirSync(path.resolve(sourceInfoFolder));
+    var yamlFilenames = fs.readdirSync(tsSourceInfoFolder);
     aggData.classInfo = {};
 
     yamlFilenames.forEach(yamlFilename => {
-        var classYamlText = fs.readFileSync(path.resolve(sourceInfoFolder, yamlFilename), "utf8");
+        var classYamlText = fs.readFileSync(path.resolve(tsSourceInfoFolder, yamlFilename), "utf8");
         var classYaml = jsyaml.safeLoad(classYamlText);
 
         if (program.verbose) {
@@ -279,7 +274,8 @@ var mdCache = initMdCache(files);
 console.log("Loading source data...");
 //initSourceInfo(aggData, mdCache);
 
-initClassInfo(aggData);
+var tsSourceYamlFolder = path.resolve(sourcePath, tsSourceInfoFolderName);
+initClassInfo(tsSourceYamlFolder, aggData);
 
 /*
 console.log("Initialising...");
