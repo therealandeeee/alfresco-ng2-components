@@ -20,8 +20,8 @@ import {
 } from "../SourceInfoClasses"
 
 
-let libFolders = ["core", "content-services", "process-services", "insights", "process-services-cloud"];
-let templateFolder = path.resolve("tools", "doc", "templates");
+//let libFolders = ["core", "content-services", "process-services", "insights", "process-services-cloud"];
+let templateFolder = path.resolve(__dirname, '..', 'templates');
 
 let excludePatterns = [
     "**/*.spec.ts"
@@ -61,7 +61,7 @@ function showErrors(filename, errorMessages) {
 }
 
 
-
+/*
 function initPhase(aggData) {
     nameExceptions = aggData.config.typeNameExceptions;
 
@@ -78,7 +78,7 @@ function initPhase(aggData) {
 
     aggData.projData = app.convert(sources);
 }
-
+*/
 
 
 

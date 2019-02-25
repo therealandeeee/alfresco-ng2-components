@@ -219,6 +219,7 @@ program
 .option("-p, --profile [profileName]", "Select named config profile", "default")
 .option("-j, --json", "Output JSON data for Markdown syntax tree")
 .option("-v, --verbose", "Log doc files as they are processed")
+.option('-c, --codeRoot', 'Root folder for code source files')
 .option("-t, --timing", "Output time taken for run")
 .parse(process.argv);
 
@@ -242,6 +243,7 @@ var toolModules = loadToolModules();
 
 var config = loadConfig();
 aggData['config'] = config;
+aggData['docsFolder'] = sourcePath;
 
 var toolList;
 
@@ -268,6 +270,11 @@ files = files.filter(filename =>
     (filename !== "README.md")
 );
 
+if (program.codeRoot) {
+    aggData['codeRoot'] = path.resolve(program.codeRoot);
+} else {
+    aggData['codeRoot'] = path.resolve('lib');
+}
 
 var mdCache = initMdCache(files);
 

@@ -19,12 +19,13 @@ module.exports = {
 var angFilenameRegex = /([a-zA-Z0-9\-]+)\.((component)|(dialog)|(directive)|(model)|(pipe)|(service)|(widget))\.ts/;
 var searchFolderOmitRegex = /(config)|(mock)|(i18n)|(assets)|(styles)/;
 
-var docsFolderPath = path.resolve("docs");
-var rootFolder = "lib";
-var indexMdFilePath = path.resolve(docsFolderPath, "README.md");
+var docsFolderPath;// = path.resolve("docs");
+var rootFolder;// = "lib";
+var indexMdFileName = 'README.md';
+var indexMdFilePath;
 
 var guideFolderName = "user-guide";
-var guideSummaryFileName = path.resolve(docsFolderPath, guideFolderName, "summary.json");
+var guideSummaryFileName;
 
 var maxBriefDescLength = 180;
 
@@ -45,6 +46,10 @@ function processDocs(mdCache, aggData, _errorMessages) {
 
 function initPhase(aggData) {
     statusIcons = aggData.config["statusIcons"] || {};
+    docsFolderPath = aggData['docsFolder'];
+    indexMdFilePath = path.resolve(docsFolderPath, indexMdFileName);
+    guideSummaryFileName = path.resolve(docsFolderPath, guideFolderName, "summary.json");
+    rootFolder = aggData['codeRoot'];
     aggData.stoplist = makeStoplist(aggData.config);
     aggData.srcData = {};
     aggData.mdFileDesc = [];
